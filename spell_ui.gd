@@ -3,7 +3,7 @@ extends PanelContainer
 @export var spell_part_scene: PackedScene
 
 var _prefixes: Array[String] = ["lux", "nox", "sol", "vis", "nix"]
-var _postfixes: Array[String] = ["pila", "fulminis", "imbris", "fluctus", "dyslexia", "bombamagnamala"]
+var _postfixes: Array[String] = ["pila", "fulminis", "imbris", "fluctus", "bombamagnamala"]
 
 var prefix_parts: Array[SpellPart] = []
 var postfix_parts: Array[SpellPart] = []
