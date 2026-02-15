@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var speed := 200.0
+@export var ttl := 10.0
 var direction := Vector2.RIGHT
 var target: Area2D
 var damage: int
@@ -12,6 +13,9 @@ func _ready():
 	collision_layer = 2
 	collision_mask = 1
 	add_to_group("projectile")
+	await get_tree().create_timer(ttl).timeout
+	destroy()
+	
 
 func _physics_process(delta):
 	position += direction * speed * delta
