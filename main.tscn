@@ -1,3 +1,12 @@
 [gd_scene format=3 uid="uid://cuqw5d7fxf0i3"]
 
+[ext_resource type="Script" uid="uid://ce6ewewdgiggs" path="res://input_label.gd" id="1_ig7tw"]
+
 [node name="Node2D" type="Node2D" unique_id=2083027082]
+
+[node name="InputLabel" type="Label" parent="." unique_id=1470241041]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "foo bar dasyel
+"
+script = ExtResource("1_ig7tw")
