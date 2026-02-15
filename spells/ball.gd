@@ -1,6 +1,8 @@
 extends Area2D
 
-var target:Area2D = null
+@export var speed := 200.0
+var direction := Vector2.RIGHT
+var target: Area2D
 var damage: int
 var mat
 
@@ -10,6 +12,9 @@ func _ready():
 	collision_layer = 2
 	collision_mask = 1
 	add_to_group("projectile")
+
+func _physics_process(delta):
+	position += direction * speed * delta
 
 func set_colors(center_color: Color, mid_color: Color, edge_color: Color):
 	$Sprite2D.modulate = center_color

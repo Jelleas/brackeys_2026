@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://7ungke45eqmy"]
 
 [ext_resource type="Script" uid="uid://dd5xpjvlsrcxy" path="res://wizard/wizard.gd" id="1_ec3ak"]
+[ext_resource type="Texture2D" uid="uid://bq7ru5xxubpud" path="res://icon.svg" id="2_ar7j0"]
 
 [node name="Wizard" type="Node2D" unique_id=916335594]
 script = ExtResource("1_ec3ak")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1440285425]
+texture = ExtResource("2_ar7j0")
