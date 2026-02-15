@@ -6,6 +6,8 @@
 [node name="SpellUI" type="PanelContainer" unique_id=1753910030]
 offset_right = 40.0
 offset_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_oiqol")
 spell_part_scene = ExtResource("2_48tn3")
 
@@ -14,6 +16,9 @@ layout_mode = 2
 
 [node name="PrefixVBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1820482407]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="PostfixVBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1900906695]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0

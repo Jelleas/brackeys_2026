@@ -8,4 +8,15 @@
 [node name="InputManager" type="Node" parent="." unique_id=889241047]
 script = ExtResource("1_ig7tw")
 
-[node name="SpellUI" parent="." unique_id=1753910030 instance=ExtResource("2_0xm2m")]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=206518236]
+
+[node name="SpellUI" parent="CanvasLayer" unique_id=1753910030 instance=ExtResource("2_0xm2m")]
+custom_minimum_size = Vector2(0, 300)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0

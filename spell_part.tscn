@@ -3,11 +3,11 @@
 [ext_resource type="Script" uid="uid://cib6ny714scvk" path="res://spell_part.gd" id="1_adxcq"]
 
 [node name="SpellPartLabel" type="RichTextLabel" unique_id=1677178602]
-custom_minimum_size = Vector2(50, 50)
 offset_right = 69.0
 offset_bottom = 55.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 text = "Lux"
+horizontal_alignment = 1
 script = ExtResource("1_adxcq")
