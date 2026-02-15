@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://c4r3lnyjc21kl"]
+
+[ext_resource type="Script" uid="uid://b0cxrx5htv7th" path="res://spells/ball.gd" id="1_hj3xb"]
+[ext_resource type="Texture2D" uid="uid://b67nbfdecpy6f" path="res://spells/glow.png" id="2_ffg60"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vywb2"]
+
+[sub_resource type="Gradient" id="Gradient_s5f6s"]
+colors = PackedColorArray(1, 1, 0.6666667, 1, 0.8, 0.13333334, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k6nqd"]
+gradient = SubResource("Gradient_s5f6s")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cnkv0"]
+spread = 180.0
+initial_velocity_min = 10.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, -20, 0)
+radial_accel_min = 19.999998
+radial_accel_max = 19.999998
+tangential_accel_min = 99.99999
+tangential_accel_max = 200.0
+damping_min = 10.0
+damping_max = 20.0
+scale_min = 0.5
+color_ramp = SubResource("GradientTexture1D_k6nqd")
+
+[node name="Field" type="Area2D" unique_id=1695962856]
+script = ExtResource("1_hj3xb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1198613254]
+shape = SubResource("CircleShape2D_vywb2")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1618102325]
+amount = 100
+amount_ratio = 0.6488
+process_material = SubResource("ParticleProcessMaterial_cnkv0")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=102753519]
+modulate = Color(1, 0.4, 0, 1)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_ffg60")

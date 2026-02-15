@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cuqw5d7fxf0i3"]
 
 [ext_resource type="Script" uid="uid://ce6ewewdgiggs" path="res://input_label.gd" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://dvqu60slai8wa" path="res://spell_ui.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" path="res://spell_ui.tscn" id="2_0xm2m"]
 
 [node name="Node2D" type="Node2D" unique_id=2083027082]
 
