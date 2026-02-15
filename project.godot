@@ -19,6 +19,12 @@ config/icon="res://icon.svg"
 
 Bus="*uid://pe4vsjuqlcm1"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="viewport"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
