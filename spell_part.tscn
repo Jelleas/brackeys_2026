@@ -2,14 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cib6ny714scvk" path="res://spell_part.gd" id="1_adxcq"]
 
-[sub_resource type="FontVariation" id="FontVariation_vq46o"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_klmx3"]
-font = SubResource("FontVariation_vq46o")
-font_size = 40
-
-[node name="SpellPartLabel" type="Label" unique_id=760488609]
+[node name="SpellPartLabel" type="RichTextLabel" unique_id=1677178602]
 custom_minimum_size = Vector2(50, 0)
+offset_right = 69.0
+offset_bottom = 55.0
+bbcode_enabled = true
 text = "Lux"
-label_settings = SubResource("LabelSettings_klmx3")
 script = ExtResource("1_adxcq")

@@ -1,4 +1,4 @@
-class_name SpellPart extends Label
+class_name SpellPart extends RichTextLabel
 
 var is_matching: bool = false
 var _match: String = ""
