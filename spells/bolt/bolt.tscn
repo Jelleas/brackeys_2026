@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://q26esih07elv"]
+
+[ext_resource type="Script" uid="uid://n3o2ls5qk187" path="res://spells/bolt/bolt.gd" id="1_yjlwg"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yjlwg"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 50, 0)
+damping_min = 10.0
+damping_max = 30.000002
+scale_max = 2.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u7vuo"]
+
+[node name="Bolt" type="Node2D" unique_id=288541044]
+script = ExtResource("1_yjlwg")
+
+[node name="GlowLine" type="Line2D" parent="." unique_id=308359039]
+width = 12.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="BoltLine" type="Line2D" parent="." unique_id=1663747482]
+width = 3.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=422645119]
+emitting = false
+amount = 40
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_yjlwg")
+
+[node name="EndPoint" type="Area2D" parent="." unique_id=1000874120]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndPoint" unique_id=2104943106]
+shape = SubResource("CircleShape2D_u7vuo")

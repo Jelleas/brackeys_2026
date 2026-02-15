@@ -1,7 +1,5 @@
 extends Label
 
-var typed = []
-
 func _init() -> void:
 	pass
 	
@@ -25,13 +23,5 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event.shift_pressed:
 		character = character.to_lower()
 	
-	typed.append(character)
-	
-	update()
-	
 	Bus.key_typed.emit(character)
-
-
-func update() -> void:
-	self.text = "".join(typed)
 	
