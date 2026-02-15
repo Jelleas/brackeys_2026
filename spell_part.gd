@@ -22,6 +22,11 @@ func unlock():
 	_lock = false
 	_reset_match()
 
+func on_reset_prefix() -> void:
+	if not is_prefix_part:
+		is_matching = false
+	_reset_match()
+
 func on_new_prefix(prefix: String) -> void:
 	is_matching = _prefixes_required.has(prefix)
 	_reset_match()

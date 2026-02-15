@@ -59,11 +59,12 @@ func _on_key_typed(character: String):
 				any_succeeded = true
 
 		if active_prefix and (any_succeeded or not any_pending):
-			active_prefix = ""
-			for prefix_part in prefix_parts:
-				prefix_part = prefix_part.unlock()
-			
-			
-			
-			
+			_full_reset()			
 	
+func _full_reset():
+	active_prefix = ""
+	for prefix_part in prefix_parts:
+		prefix_part = prefix_part.unlock()
+	
+	for postfix_part in postfix_parts:
+		postfix_part.on_reset_prefix()
