@@ -57,15 +57,25 @@ func _on_key_typed(character: String):
 				any_pending = true
 			elif result_state == SpellPart.MatchState.Succeeded:
 				any_succeeded = true
+				_on_spell_matched()
 				Bus.spell_matched.emit(active_prefix, postfix_part._word_to_match)
 
 		if active_prefix and (any_succeeded or not any_pending):
-			_full_reset()
+			_on_failed_postfix()
 	
-func _full_reset():
+func _on_failed_postfix():
 	active_prefix = ""
 	for prefix_part in prefix_parts:
 		prefix_part = prefix_part.unlock()
 	
 	for postfix_part in postfix_parts:
 		postfix_part.on_reset_prefix()
+
+func _on_spell_matched():
+	active_prefix = ""
+	for prefix_part in prefix_parts:
+		prefix_part.reset()
+	
+	for postfix_part in postfix_parts:
+		postfix_part.reset()
+	

@@ -12,15 +12,27 @@ func instantiate(word_to_match: String, prefixes_required: Array[String]) -> voi
 	_word_to_match = word_to_match
 	
 	if prefixes_required.is_empty():
-		is_matching = true;
-		is_prefix_part = true;
+		is_matching = true
+		is_prefix_part = true
 		
 	_prefixes_required = prefixes_required
 	_set_label()
 
-func unlock():
+func reset():
 	_lock = false
-	_reset_match()
+	_match = ""
+	
+	if is_prefix_part:
+		is_matching = true
+	else:
+		is_matching = false
+	
+	_set_label()
+
+func unlock():
+	if _lock:
+		_lock = false
+		_reset_match()
 
 func on_reset_prefix() -> void:
 	if not is_prefix_part:
@@ -43,9 +55,15 @@ func on_new_letter(letter: String) -> MatchState:
 	if not _word_to_match.begins_with(_match):	
 		if not is_prefix_part:
 			is_matching = false;
-
-		_reset_match()
-		return MatchState.Failed
+			_reset_match()
+			return MatchState.Failed
+		elif _word_to_match.begins_with(letter):
+			_match = letter
+			_set_label()
+			return MatchState.Pending
+		else:
+			_reset_match()
+			return MatchState.Failed
 	
 	if _match == _word_to_match:
 		on_match()
