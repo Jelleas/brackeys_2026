@@ -60,7 +60,7 @@ func _on_key_typed(character: String):
 				Bus.spell_matched.emit(active_prefix + " " + postfix_part._word_to_match)
 
 		if active_prefix and (any_succeeded or not any_pending):
-			_full_reset()			
+			_full_reset()
 	
 func _full_reset():
 	active_prefix = ""
