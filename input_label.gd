@@ -29,6 +29,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	update()
 	
+	Bus.key_typed.emit("".join(typed))
+
 
 func update() -> void:
 	self.text = "".join(typed)
