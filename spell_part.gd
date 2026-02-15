@@ -10,6 +10,8 @@ func instantiate(word_to_match: String, prefixes_required: Array[String]) -> voi
 	
 	if prefixes_required.is_empty():
 		is_matching = true;
+		
+	_set_label()
 
 func on_prefix_match(prefix: String) -> void:
 	is_matching = _prefixes_required.has(prefix)
@@ -36,8 +38,17 @@ func on_new_letter(letter: String) -> MatchState:
 		_set_label()
 		return MatchState.Pending
 		
-func _set_label():
-	self.text = _match
+func _set_label():	
+	var correct_color = Color.GREEN
+	var incorrect_color = Color.GRAY
+	
+	var result = "[color=%s]%s[/color]" % [correct_color.to_html(), _match]
+	
+	var remainder = _word_to_match.substr(len(_match))
+	result += "[color=%s]%s[/color]" % [incorrect_color.to_html(), remainder]
+	
+	print(result)
+	self.text = result
 
 func on_match():
 	_match = ""
