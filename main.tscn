@@ -1,17 +1,11 @@
 [gd_scene format=3 uid="uid://cuqw5d7fxf0i3"]
 
-[ext_resource type="Script" uid="uid://ce6ewewdgiggs" path="res://input_label.gd" id="1_ig7tw"]
-[ext_resource type="PackedScene" path="res://spell_ui.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://ce6ewewdgiggs" path="res://input_manager.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://dvqu60slai8wa" path="res://spell_ui.tscn" id="2_0xm2m"]
 
 [node name="Node2D" type="Node2D" unique_id=2083027082]
 
-[node name="InputLabel" type="Label" parent="." unique_id=1470241041]
-offset_left = 231.0
-offset_top = 218.0
-offset_right = 341.0
-offset_bottom = 267.0
-text = "foo bar dasyel
-"
+[node name="InputManager" type="Node" parent="." unique_id=889241047]
 script = ExtResource("1_ig7tw")
 
 [node name="SpellUI" parent="." unique_id=1753910030 instance=ExtResource("2_0xm2m")]
