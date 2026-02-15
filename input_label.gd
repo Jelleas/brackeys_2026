@@ -29,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	update()
 	
-	Bus.key_typed.emit("".join(typed))
+	Bus.key_typed.emit(character)
 
 
 func update() -> void:
