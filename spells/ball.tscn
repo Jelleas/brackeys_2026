@@ -22,7 +22,8 @@ tangential_accel_min = 99.99999
 tangential_accel_max = 200.0
 damping_min = 10.0
 damping_max = 20.0
-scale_min = 0.5
+scale_min = 2.0
+scale_max = 5.0
 color_ramp = SubResource("GradientTexture1D_k6nqd")
 
 [node name="Field" type="Area2D" unique_id=1695962856]
@@ -38,5 +39,5 @@ process_material = SubResource("ParticleProcessMaterial_cnkv0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=102753519]
 modulate = Color(1, 0.4, 0, 1)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_ffg60")
