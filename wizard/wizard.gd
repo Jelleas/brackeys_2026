@@ -34,6 +34,10 @@ func _on_spell_matched(spell_prefix: String, spell_suffix):
 		color1 = Color("#FFFFAA")
 		color2 = Color("#FF6600")
 		color3 = Color("#CC2200")
+	else:
+		color1 = Color("#AAEEFF")
+		color2 = Color("#3388FF")
+		color3 = Color("#1122AA")
 	
 	if spell_suffix == "pila":
 		cast_ball(color1, color2, color3)
