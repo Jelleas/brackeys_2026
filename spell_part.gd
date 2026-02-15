@@ -12,7 +12,6 @@ func instantiate(word_to_match: String, prefixes_required: Array[String]) -> voi
 		is_matching = true;
 		
 	_prefixes_required = prefixes_required
-	
 	_set_label()
 
 func on_new_prefix(prefix: String) -> void:
@@ -49,18 +48,22 @@ func _reset_match():
 func _set_label():	
 	var correct_color = Color.GREEN
 	var incorrect_color = Color.GRAY
-	
+
 	var result = "[color=%s]%s[/color]" % [correct_color.to_html(), _match]
-	
+
 	var remainder = _word_to_match.substr(len(_match))
 	result += "[color=%s]%s[/color]" % [incorrect_color.to_html(), remainder]
-	
 	self.text = result
 
 func on_match():
-	_match = ""
 	_set_label()
-		
+	var tween = create_tween()
+	tween.set_parallel(false)
+	tween.tween_property(self, "scale", Vector2(2, 2), 0.2)
+	tween.tween_property(self, "scale", Vector2.ONE, 0.2)
+	tween.tween_callback(func(): _match = ""; _set_label())
+
+
 enum MatchState {
 	Failed, Succeeded, Pending, Disabled
 }
