@@ -16,10 +16,15 @@ metadata/_custom_type_script = "uid://clf2430d4p1ds"
 [node name="CombatArea" type="Node2D" unique_id=798258911]
 script = ExtResource("1_6tqnk")
 
+[node name="Background" type="ColorRect" parent="." unique_id=1966528544]
+offset_right = 1280.0
+offset_bottom = 360.0
+color = Color(1, 1, 1, 0.39607844)
+
 [node name="Wizard" parent="." unique_id=916335594 instance=ExtResource("2_x7k0x")]
-position = Vector2(93, 254)
+position = Vector2(93, 180)
 
 [node name="MonsterSpawner" parent="." unique_id=663206382 instance=ExtResource("3_imaqy")]
-position = Vector2(1151, 249)
+position = Vector2(1151, 180)
 monster_scene = ExtResource("4_pmhac")
 monster_configs = Array[ExtResource("5_b8epd")]([SubResource("Resource_hno6h")])
