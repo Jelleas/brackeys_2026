@@ -8,6 +8,11 @@ var _prefixes_required: Array[String]
 
 var _lock: bool = false
 
+func _ready():
+	# Wait one frame so the Control knows its final size
+	await get_tree().process_frame
+	pivot_offset = size / 2.0
+
 func instantiate(word_to_match: String, prefixes_required: Array[SpellConfigs.Prefix]) -> void:
 	_word_to_match = word_to_match
 	
