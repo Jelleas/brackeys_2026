@@ -1,0 +1,186 @@
+[gd_scene format=3 uid="uid://d2qko6povkimd"]
+
+[ext_resource type="Script" uid="uid://dgou58g6xax0r" path="res://spells/bomba/bomba.gd" id="1_wss55"]
+[ext_resource type="Texture2D" uid="uid://b67nbfdecpy6f" path="res://spells/ball/glow.png" id="2_pfish"]
+[ext_resource type="Texture2D" uid="uid://dqfl46pcgirff" path="res://spells/rain/cloud_puff.png" id="3_cbv5d"]
+
+; ── OrbTrail: soft puffs trailing the falling orb ──
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_orb_trail"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, -50, 0)
+scale_min = 3.0
+scale_max = 6.0
+
+; ── ShockwaveLeft: horizontal burst going LEFT ──
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_shockwave_left"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 15, 0)
+direction = Vector3(-1, 0, 0)
+spread = 18.0
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 40, 0)
+damping_min = 15.0
+damping_max = 30.0
+scale_min = 3.0
+scale_max = 7.0
+
+; ── ShockwaveRight: horizontal burst going RIGHT ──
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_shockwave_right"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 15, 0)
+direction = Vector3(1, 0, 0)
+spread = 18.0
+initial_velocity_min = 150.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 40, 0)
+damping_min = 15.0
+damping_max = 30.0
+scale_min = 3.0
+scale_max = 7.0
+
+; ── ExplosionFlash: very fast radial burst at centre (the initial fireball) ──
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_flash"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 12.0
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, -30, 0)
+damping_min = 100.0
+damping_max = 200.0
+scale_min = 2.5
+scale_max = 5.0
+
+; ── MushroomStem: narrow column of smoke/debris rising up to cap height ──
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_stem"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(12, 5, 0)
+direction = Vector3(0, -1, 0)
+spread = 6.0
+initial_velocity_min = 280.0
+initial_velocity_max = 400.0
+gravity = Vector3(0, 80, 0)
+damping_min = 120.0
+damping_max = 180.0
+scale_min = 4.0
+scale_max = 8.0
+
+; ── MushroomCap: billowing cloud that expands outward at the top ──
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cap"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+direction = Vector3(0, -1, 0)
+spread = 140.0
+initial_velocity_min = 40.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, -8, 0)
+damping_min = 10.0
+damping_max = 30.0
+scale_min = 8.0
+scale_max = 18.0
+
+; ── PoolParticles: irradiating dot field – small glowing dots scattered on ground ──
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pool"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(280, 2, 0)
+direction = Vector3(0, 0, 0)
+spread = 0.0
+initial_velocity_min = 0.0
+initial_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.4
+scale_max = 1.2
+
+; ── DamageArea collision shape ──
+[sub_resource type="CircleShape2D" id="CircleShape2D_rtdnx"]
+radius = 300.0
+
+; ═══════════════════════════════════════════════
+;  SCENE TREE
+; ═══════════════════════════════════════════════
+
+[node name="Bomba" type="Node2D"]
+script = ExtResource("1_wss55")
+
+; ── Falling orb ──
+[node name="FallingOrb" type="Node2D" parent="."]
+
+[node name="OrbSprite" type="Sprite2D" parent="FallingOrb"]
+texture = ExtResource("2_pfish")
+
+[node name="OrbTrail" type="GPUParticles2D" parent="FallingOrb"]
+amount = 30
+texture = ExtResource("3_cbv5d")
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_orb_trail")
+
+; ── Shockwave left (horizontal burst) ──
+[node name="ShockwaveLeft" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 60
+texture = ExtResource("3_cbv5d")
+lifetime = 1.2
+one_shot = true
+explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_shockwave_left")
+
+; ── Shockwave right (horizontal burst) ──
+[node name="ShockwaveRight" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 60
+texture = ExtResource("3_cbv5d")
+lifetime = 1.2
+one_shot = true
+explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_shockwave_right")
+
+; ── Central explosion flash ──
+[node name="ExplosionFlash" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 12
+texture = ExtResource("2_pfish")
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_flash")
+
+; ── Mushroom stem ──
+[node name="MushroomStem" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 70
+texture = ExtResource("3_cbv5d")
+lifetime = 2.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_stem")
+
+; ── Mushroom cap ──
+[node name="MushroomCap" type="GPUParticles2D" parent="."]
+position = Vector2(0, -200)
+emitting = false
+amount = 50
+texture = ExtResource("3_cbv5d")
+lifetime = 3.0
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_cap")
+
+; ── Pool / irradiating dot field ──
+[node name="PoolParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 60
+texture = ExtResource("2_pfish")
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_pool")
+
+; ── Damage area ──
+[node name="DamageArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("CircleShape2D_rtdnx")
