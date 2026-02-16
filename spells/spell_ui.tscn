@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cntit6eogsbl"]
 
-[ext_resource type="Texture2D" uid="uid://dvtqeyi027r2p" path="res://book.png" id="1_48tn3"]
-[ext_resource type="Script" uid="uid://cvy88emn0ill3" path="res://spell_ui.gd" id="1_oiqol"]
-[ext_resource type="PackedScene" uid="uid://d4j7c14k6wl3n" path="res://spell_part.tscn" id="2_48tn3"]
+[ext_resource type="Texture2D" uid="uid://dvtqeyi027r2p" path="res://assets/book.png" id="1_48tn3"]
+[ext_resource type="Script" uid="uid://cvy88emn0ill3" path="res://spells/spell_ui.gd" id="1_oiqol"]
+[ext_resource type="PackedScene" uid="uid://d4j7c14k6wl3n" path="res://spells/spell_part.tscn" id="2_48tn3"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lbsfj"]
 texture = ExtResource("1_48tn3")

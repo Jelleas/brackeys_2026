@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://7forsofufs6w"
-path="res://.godot/imported/GreatVibes-Regular.ttf-a274880e28c7fb577d5b778c430c75f5.fontdata"
+uid="uid://ds3h1gjl3wnwo"
+path="res://.godot/imported/MarckScript-Regular.ttf-4a38ad873952cab2bcc1551d921a3564.fontdata"
 
 [deps]
 
-source_file="res://GreatVibes-Regular.ttf"
-dest_files=["res://.godot/imported/GreatVibes-Regular.ttf-a274880e28c7fb577d5b778c430c75f5.fontdata"]
+source_file="res://assets/MarckScript-Regular.ttf"
+dest_files=["res://.godot/imported/MarckScript-Regular.ttf-4a38ad873952cab2bcc1551d921a3564.fontdata"]
 
 [params]
 
