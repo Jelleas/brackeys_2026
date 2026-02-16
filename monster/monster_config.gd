@@ -5,3 +5,4 @@ class_name MonsterConfig
 @export var health: int
 @export var damage: int
 @export var resistances: Array[String]
+@export var experience: int

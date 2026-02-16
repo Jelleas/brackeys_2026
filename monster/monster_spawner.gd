@@ -30,8 +30,6 @@ func _fill_slots() -> void:
 
 func _reposition_monsters() -> void:
 	for i in range(visible_monsters.size()):
-		#if not is_instance_valid(visible_monsters[i]):
-			#continue
 		var target_pos = slot_start_position + Vector2(i * slot_spacing, 0)
 		var tween = visible_monsters[i].create_tween()
 		tween.tween_property(visible_monsters[i], "position", target_pos, 0.3)

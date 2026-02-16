@@ -17,6 +17,9 @@ func _ready():
 	await get_tree().create_timer(ttl).timeout
 	destroy()
 	
+func init(spell: SpellConfigs.Spell) -> void:
+	damage = spell.get_damage()
+	set_colors(spell.prefix.color1, spell.prefix.color2, spell.prefix.color3)
 
 func _physics_process(delta):
 	position += direction * speed * delta

@@ -18,6 +18,10 @@ func _ready():
 	$EndPoint.area_entered.connect(_on_area_entered)
 	max_range = get_viewport_rect().size.x - global_position.x
 
+func init(spell: SpellConfigs.Spell) -> void:
+	damage = spell.get_damage()
+	set_colors(spell.prefix.color1, spell.prefix.color2)
+
 func _process(delta: float):
 	if not _fully_extended:
 		_end_x += bolt_speed * delta
