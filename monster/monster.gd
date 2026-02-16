@@ -33,6 +33,8 @@ func _ready() -> void:
 	shape.height = tex_size.y
 
 func get_hit(incoming_hit: int):
+	if is_dead:
+		return
 	take_damage(incoming_hit)
 
 func init(_config: MonsterConfig):
@@ -47,7 +49,7 @@ func take_damage(damage: int):
 	if(health <= 0):
 		is_dead = true
 		monster_killed.emit(self)
-		$MonsterBody.queue_free()
+		Bus.monster_killed.emit(self)
 
 func _play_hit_sound():
 	voice_player.play()

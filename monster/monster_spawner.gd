@@ -3,27 +3,44 @@ extends Node2D
 class_name MonsterSpawner
 
 @export var monster_scene: PackedScene
-@export var monster_configs: Array[MonsterConfig]
+@export var max_visible: int = 4
+@export var slot_start_position: Vector2
+@export var slot_spacing: float = 200
+@export var queue_size: int = 10
 
-var active_monsters: Array[Monster]
-
-@onready var spawn_timer: Timer = $SpawnTimer
+var monster_queue: Array[MonsterConfig] = []
+var visible_monsters: Array = []
 
 func _ready() -> void:
-	spawn_timer.timeout.connect(_spawn_new_monster)
-	spawn_timer.start()
-	
-func spawn(config: MonsterConfig):
-	var monster = monster_scene.instantiate()
-	monster.init(config)
-	add_child(monster)
-	
-	active_monsters.append(monster)
-	
-func _spawn_new_monster():
-	var monster_config = _pick_random_monster()
-	spawn(monster_config)
-	
-func _pick_random_monster():
-	var random_index = randi_range(0, monster_configs.size() - 1)
-	return monster_configs[random_index]
+	Bus.monster_killed.connect(_on_monster_killed)
+
+func spawn(configs: Array[MonsterConfig]) -> void:
+	monster_queue = configs
+	_fill_slots()
+
+func _fill_slots() -> void:
+	while visible_monsters.size() < max_visible and not monster_queue.is_empty():
+		var config = monster_queue.pop_front()
+		var monster = monster_scene.instantiate()
+		monster.init(config)
+		var index = visible_monsters.size()
+		monster.position = slot_start_position + Vector2(index * slot_spacing, 0)
+		add_child(monster)
+		visible_monsters.append(monster)
+
+func _reposition_monsters() -> void:
+	for i in range(visible_monsters.size()):
+		#if not is_instance_valid(visible_monsters[i]):
+			#continue
+		var target_pos = slot_start_position + Vector2(i * slot_spacing, 0)
+		var tween = visible_monsters[i].create_tween()
+		tween.tween_property(visible_monsters[i], "position", target_pos, 0.3)
+
+func _on_monster_killed(monster: Monster) -> void:
+	var index = visible_monsters.find(monster)
+	if index == -1:
+		return
+	visible_monsters.remove_at(index)
+	monster.queue_free()
+	_reposition_monsters()
+	_fill_slots()

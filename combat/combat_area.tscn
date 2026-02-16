@@ -1,16 +1,24 @@
 [gd_scene format=3 uid="uid://haef5f5px368"]
 
-[ext_resource type="Script" uid="uid://dhg2fjxxhgi28" path="res://combat_area.gd" id="1_6tqnk"]
+[ext_resource type="Script" uid="uid://dhg2fjxxhgi28" path="res://combat/combat_area.gd" id="1_6tqnk"]
+[ext_resource type="Script" uid="uid://c24tlu6xsii8d" path="res://combat/wave_manager.gd" id="2_5clfo"]
 [ext_resource type="PackedScene" uid="uid://7ungke45eqmy" path="res://wizard/wizard.tscn" id="2_x7k0x"]
 [ext_resource type="PackedScene" uid="uid://6qo4v8482eba" path="res://monster/monster_spawner.tscn" id="3_imaqy"]
 [ext_resource type="PackedScene" uid="uid://3cbu3tsq6sew" path="res://monster/monster.tscn" id="4_pmhac"]
 [ext_resource type="Script" uid="uid://clf2430d4p1ds" path="res://monster/monster_config.gd" id="5_b8epd"]
 
-[sub_resource type="Resource" id="Resource_hno6h"]
+[sub_resource type="Resource" id="Resource_5clfo"]
 script = ExtResource("5_b8epd")
 name = "test"
 health = 100
-damage = 20
+damage = 10
+metadata/_custom_type_script = "uid://clf2430d4p1ds"
+
+[sub_resource type="Resource" id="Resource_6f4sn"]
+script = ExtResource("5_b8epd")
+name = "test2"
+health = 50
+damage = 100
 metadata/_custom_type_script = "uid://clf2430d4p1ds"
 
 [node name="CombatArea" type="Node2D" unique_id=798258911]
@@ -21,10 +29,14 @@ offset_right = 1280.0
 offset_bottom = 360.0
 color = Color(1, 1, 1, 0.39607844)
 
+[node name="MonsterSpawner" parent="." unique_id=663206382 instance=ExtResource("3_imaqy")]
+position = Vector2(800, 180)
+monster_scene = ExtResource("4_pmhac")
+
+[node name="WaveManager" type="Node2D" parent="." unique_id=662207356 node_paths=PackedStringArray("spawner")]
+script = ExtResource("2_5clfo")
+monster_configs = Array[ExtResource("5_b8epd")]([SubResource("Resource_5clfo"), SubResource("Resource_6f4sn")])
+spawner = NodePath("../MonsterSpawner")
+
 [node name="Wizard" parent="." unique_id=916335594 instance=ExtResource("2_x7k0x")]
 position = Vector2(93, 180)
-
-[node name="MonsterSpawner" parent="." unique_id=663206382 instance=ExtResource("3_imaqy")]
-position = Vector2(1151, 180)
-monster_scene = ExtResource("4_pmhac")
-monster_configs = Array[ExtResource("5_b8epd")]([SubResource("Resource_hno6h")])

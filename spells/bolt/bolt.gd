@@ -16,18 +16,15 @@ var _flicker_timer := 0.0
 func _ready():
 	$GPUParticles2D.emitting = false
 	$EndPoint.area_entered.connect(_on_area_entered)
+	max_range = get_viewport_rect().size.x - global_position.x
 
 func _process(delta: float):
 	if not _fully_extended:
 		_end_x += bolt_speed * delta
+		$EndPoint.position = Vector2(_end_x, 0)
 		if _end_x >= max_range:
 			_end_x = max_range
-			_fully_extended = true
-			$GPUParticles2D.position = Vector2(_end_x, 0)
-			$GPUParticles2D.emitting = true
-			$EndPoint/CollisionShape2D.shape.radius = 20.0
-			$EndPoint.position = Vector2(_end_x, 0)
-			$EndPoint.monitoring = true
+			_on_bolt_reached_end()
 	else:
 		_lifetime_timer += delta
 		if _lifetime_timer >= lifetime:
@@ -37,7 +34,6 @@ func _process(delta: float):
 		$BoltLine.modulate.a = alpha
 		$GlowLine.modulate.a = alpha
 	_flicker_timer += delta
-
 	if _flicker_timer >= flicker_interval:
 		_flicker_timer = 0.0
 		_regenerate_bolt()
@@ -69,12 +65,18 @@ func set_colors(core_color: Color, glow_color: Color):
 	grad_tex.gradient = gradient
 	$GPUParticles2D.process_material.color_ramp = grad_tex
 
+func _on_bolt_reached_end():
+	_fully_extended = true
+	$GPUParticles2D.position = Vector2(_end_x, 0)
+	$GPUParticles2D.emitting = true
+
 func _on_area_entered(area: Area2D):
 	if area.is_in_group("monster"):
 		var monster = area.get_parent() as Monster
 		if monster:
 			monster.get_hit(damage)
-		destroy()
+		_end_x = $EndPoint.position.x
+		_on_bolt_reached_end()
 
 func destroy():
 	queue_free()
