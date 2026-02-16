@@ -2,9 +2,17 @@
 
 [ext_resource type="Script" uid="uid://dd5xpjvlsrcxy" path="res://wizard/wizard.gd" id="1_ec3ak"]
 [ext_resource type="Texture2D" uid="uid://bq7ru5xxubpud" path="res://assets/icon.svg" id="2_ar7j0"]
+[ext_resource type="AudioStream" uid="uid://bjrmarjlvvhsu" path="res://wizard/Player Hit.wav" id="3_4yu8k"]
 
 [node name="Wizard" type="Node2D" unique_id=916335594]
 script = ExtResource("1_ec3ak")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1440285425]
 texture = ExtResource("2_ar7j0")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1117597936]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WizardVoice" type="AudioStreamPlayer" parent="." unique_id=303350864]
+stream = ExtResource("3_4yu8k")

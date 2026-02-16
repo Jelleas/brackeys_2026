@@ -27,12 +27,28 @@ func _fill_slots() -> void:
 		monster.position = slot_start_position + Vector2(index * slot_spacing, 0)
 		add_child(monster)
 		visible_monsters.append(monster)
+	_update_front_attacker()
+	_disable_monster_hit_box()
 
 func _reposition_monsters() -> void:
 	for i in range(visible_monsters.size()):
 		var target_pos = slot_start_position + Vector2(i * slot_spacing, 0)
 		var tween = visible_monsters[i].create_tween()
 		tween.tween_property(visible_monsters[i], "position", target_pos, 0.3)
+
+func _update_front_attacker() -> void:
+	for monster in visible_monsters:
+		if is_instance_valid(monster):
+			monster.stop_attacking()
+	if visible_monsters.size() > 0 and is_instance_valid(visible_monsters[0]):
+		visible_monsters[0].start_attacking()
+
+func _disable_monster_hit_box() -> void:
+	for monster in visible_monsters:
+		if is_instance_valid(monster):
+			monster.get_node("MonsterBody/CollisionShape2D").set_deferred("disabled", false)
+	if visible_monsters.size() >= max_visible and is_instance_valid(visible_monsters[max_visible - 1]):
+		visible_monsters[max_visible - 1].get_node("MonsterBody/CollisionShape2D").set_deferred("disabled", true)
 
 func _on_monster_killed(monster: Monster) -> void:
 	var index = visible_monsters.find(monster)
@@ -41,4 +57,6 @@ func _on_monster_killed(monster: Monster) -> void:
 	visible_monsters.remove_at(index)
 	monster.queue_free()
 	_reposition_monsters()
+	_disable_monster_hit_box()
+	_update_front_attacker()
 	call_deferred("_fill_slots")
