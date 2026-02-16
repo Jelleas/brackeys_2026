@@ -2,8 +2,6 @@ extends Node2D
 
 class_name Monster
 
-signal monster_killed(monster: Monster)
-
 @onready var monster_body: Area2D = $MonsterBody
 @onready var health_bar: TextureProgressBar = $TextureProgressBar
 @onready var voice_player = $MonsterVoice
@@ -13,6 +11,7 @@ var original_modulate: Color
 var config: MonsterConfig
 var damage: int = 10
 var is_dead: bool = false
+var attack_timer: Timer
 
 func _ready() -> void:
 	original_modulate = modulate
@@ -33,6 +32,11 @@ func _ready() -> void:
 	var shape = collision_shape.shape as CapsuleShape2D
 	shape.radius = tex_size.x / 2.0
 	shape.height = tex_size.y
+	
+	attack_timer = Timer.new()
+	attack_timer.one_shot = false
+	attack_timer.timeout.connect(_on_attack_timer)
+	add_child(attack_timer)
 
 func _create_healthbar() -> void:
 	var under_tex = GradientTexture2D.new()
@@ -52,15 +56,15 @@ func _create_healthbar() -> void:
 	health_bar.position = Vector2(-50, 70)
 	health_bar.size = Vector2(100, 10)
 
-func get_hit(incoming_hit: int):
-	if is_dead:
-		return
-	take_damage(incoming_hit)
-
 func init(_config: MonsterConfig):
 	config = _config
 	health = config.health
 	damage = config.damage
+
+func get_hit(incoming_hit: int):
+	if is_dead:
+		return
+	take_damage(incoming_hit)
 
 func take_damage(damage: int):
 	health -= damage
@@ -68,8 +72,19 @@ func take_damage(damage: int):
 	_play_hit_sound()
 	if(health <= 0):
 		is_dead = true
-		monster_killed.emit(self)
 		Bus.monster_killed.emit(self)
 
 func _play_hit_sound():
 	voice_player.play()
+
+func start_attacking() -> void:
+	attack_timer.wait_time = config.attack_interval
+	attack_timer.start()
+
+func stop_attacking() -> void:
+	attack_timer.stop()
+
+func _on_attack_timer() -> void:
+	if is_dead:
+		return
+	Bus.monster_attacked.emit(damage)
