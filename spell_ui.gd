@@ -2,9 +2,6 @@ extends PanelContainer
 
 @export var spell_part_scene: PackedScene
 
-var _prefixes: Array[String] = ["lux", "nox", "sol", "vis", "nix"]
-var _postfixes: Array[String] = ["pila", "fulminis", "imbris", "fluctus", "bombamagnamala"]
-
 var prefix_parts: Array[SpellPart] = []
 var postfix_parts: Array[SpellPart] = []
 
@@ -15,26 +12,26 @@ func _ready():
 	initialize_spells()
 
 func initialize_spells() -> void:
-	for prefix in _prefixes:
+	for prefix in SpellConfigs.prefixes:
 		var spell_part: SpellPart = spell_part_scene.instantiate()
 		
-		spell_part.instantiate(prefix, [])
+		spell_part.instantiate(prefix.name, [])
 		
 		$HBoxContainer/PrefixVBoxContainer.add_child(spell_part)
 
 		prefix_parts.append(spell_part)
 
-	for postfix in _postfixes:
+	for postfix in SpellConfigs.postfixes:
 		var spell_part: SpellPart = spell_part_scene.instantiate()
 		
-		spell_part.instantiate(postfix, _prefixes)
+		spell_part.instantiate(postfix.name, SpellConfigs.prefixes)
 		
 		$HBoxContainer/PostfixVBoxContainer.add_child(spell_part)
 
 		postfix_parts.append(spell_part)
 
 func _on_key_typed(character: String):
-	var new_prefix_activated = false
+	var new_prefix_activated: bool = false
 	
 	for prefix_part in prefix_parts:
 		var result_state: SpellPart.MatchState = prefix_part.on_new_letter(character)
@@ -47,18 +44,18 @@ func _on_key_typed(character: String):
 		for postfix_part in postfix_parts:
 			postfix_part.on_new_prefix(active_prefix)
 	else:
-		var any_pending = false
-		var any_succeeded = false
+		var any_pending: bool = false
+		var any_succeeded: bool = false
 		
 		for postfix_part in postfix_parts:
-			var result_state = postfix_part.on_new_letter(character)
+			var result_state: SpellPart.MatchState = postfix_part.on_new_letter(character)
 			
 			if result_state == SpellPart.MatchState.Pending:
 				any_pending = true
 			elif result_state == SpellPart.MatchState.Succeeded:
 				any_succeeded = true
-				_on_spell_matched()
 				Bus.spell_matched.emit(active_prefix, postfix_part._word_to_match)
+				_on_spell_matched()
 
 		if active_prefix and (any_succeeded or not any_pending):
 			_on_failed_postfix()

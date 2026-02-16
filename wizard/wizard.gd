@@ -27,17 +27,8 @@ func cast_bolt(core_color: Color, glow_color: Color):
 	bolt.set_colors(core_color, glow_color)
 
 func _on_spell_matched(spell_prefix: String, spell_suffix):
-	var color1
-	var color2
-	var color3 
-	if spell_prefix == "lux":
-		color1 = Color("#FFFFAA")
-		color2 = Color("#FF6600")
-		color3 = Color("#CC2200")
-	else:
-		color1 = Color("#AAEEFF")
-		color2 = Color("#3388FF")
-		color3 = Color("#1122AA")
+	print("prefix: ", spell_prefix)
+	var prefix: SpellConfigs.Prefix = SpellConfigs.prefixes_by_name[spell_prefix]
 	
-	if spell_suffix == "pila":
-		cast_ball(color1, color2, color3)
+	if spell_suffix == "pila": #TODO: replace with packedScene in postfix config, have the scene deal with positioning and direction
+		cast_ball(prefix.color1, prefix.color2, prefix.color3)

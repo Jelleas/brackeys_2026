@@ -1,21 +1,23 @@
 class_name SpellPart extends RichTextLabel
 
-var is_prefix_part = false
+var is_prefix_part: bool = false
 var is_matching: bool = false
 var _match: String = ""
 var _word_to_match: String
 var _prefixes_required: Array[String]
 
-var _lock = false
+var _lock: bool = false
 
-func instantiate(word_to_match: String, prefixes_required: Array[String]) -> void:
+func instantiate(word_to_match: String, prefixes_required: Array[SpellConfigs.Prefix]) -> void:
 	_word_to_match = word_to_match
 	
 	if prefixes_required.is_empty():
 		is_matching = true
 		is_prefix_part = true
 		
-	_prefixes_required = prefixes_required
+	_prefixes_required = []
+	for p in prefixes_required:
+		_prefixes_required.append(p.name)
 	_set_label()
 
 func reset():
@@ -77,18 +79,18 @@ func _reset_match():
 	_set_label()
 		
 func _set_label():	
-	var correct_color = Color.GREEN
-	var incorrect_color = Color.GRAY
+	var correct_color: Color = Color.GREEN
+	var incorrect_color: Color = Color.GRAY
 
-	var result = "[color=%s]%s[/color]" % [correct_color.to_html(), _match]
+	var result: String = "[color=%s]%s[/color]" % [correct_color.to_html(), _match]
 
-	var remainder = _word_to_match.substr(len(_match))
+	var remainder: String = _word_to_match.substr(len(_match))
 	result += "[color=%s]%s[/color]" % [incorrect_color.to_html(), remainder]
 	self.text = result
 
 func on_match():
 	_set_label()
-	var tween = create_tween()
+	var tween: Tween = create_tween()
 	tween.set_parallel(false)
 	tween.tween_property(self, "scale", Vector2(2, 2), 0.2)
 	tween.tween_property(self, "scale", Vector2.ONE, 0.2)
