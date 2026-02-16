@@ -35,7 +35,11 @@ func _create_healthbar() -> void:
 
 func cast(spell: SpellConfigs.Spell):
 	var spawner = get_parent().get_node("MonsterSpawner") as MonsterSpawner
-	var target_pos = spawner.get_front_slot_global_position()
+	var target_pos: Vector2
+	if spell is SpellConfigs.Bombamagnamala:
+		target_pos = spawner.get_second_slot_global_position()
+	else:
+		target_pos = spawner.get_front_slot_global_position()
 
 	var projectile = spell.scene.instantiate()
 	projectile.init(spell, target_pos)

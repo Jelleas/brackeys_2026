@@ -46,6 +46,11 @@ func _update_front_attacker() -> void:
 func get_front_slot_global_position() -> Vector2:
 	return global_position + slot_start_position
 
+func get_second_slot_global_position() -> Vector2:
+	if visible_monsters.size() >= 2:
+		return visible_monsters[1].global_position
+	return get_front_slot_global_position()
+
 func _disable_monster_hit_box() -> void:
 	for monster in visible_monsters:
 		if is_instance_valid(monster):

@@ -65,7 +65,7 @@ class Bombamagnamala extends Spell:
 	func _init(_prefix: Prefix):
 		prefix = _prefix
 		_base_damage = 75
-		scene = preload("res://spells/ball/ball.tscn")
+		scene = preload("res://spells/bomba/bomba.tscn")
 		name = prefix.name + " " + postfix.name
 
 class Prefix:
