@@ -34,8 +34,11 @@ func _create_healthbar() -> void:
 	health_bar.size = Vector2(100, 10)
 
 func cast(spell: SpellConfigs.Spell):
+	var spawner = get_parent().get_node("MonsterSpawner") as MonsterSpawner
+	var target_pos = spawner.get_front_slot_global_position()
+
 	var projectile = spell.scene.instantiate()
-	projectile.init(spell)
+	projectile.init(spell, target_pos)
 	add_child(projectile)
 
 func _on_spell_matched(spell: SpellConfigs.Spell):

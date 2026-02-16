@@ -18,7 +18,7 @@ func _ready():
 	$EndPoint.area_entered.connect(_on_area_entered)
 	max_range = get_viewport_rect().size.x - global_position.x
 
-func init(spell: SpellConfigs.Spell) -> void:
+func init(spell: SpellConfigs.Spell, _target_pos: Vector2 = Vector2.ZERO) -> void:
 	damage = spell.get_damage()
 	set_colors(spell.prefix.color1, spell.prefix.color2)
 

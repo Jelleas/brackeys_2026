@@ -17,7 +17,7 @@ func _ready():
 	await get_tree().create_timer(ttl).timeout
 	destroy()
 	
-func init(spell: SpellConfigs.Spell) -> void:
+func init(spell: SpellConfigs.Spell, _target_pos: Vector2 = Vector2.ZERO) -> void:
 	damage = spell.get_damage()
 	setup_shape(35)
 	set_colors(spell.prefix.color1, spell.prefix.color2, spell.prefix.color3)
