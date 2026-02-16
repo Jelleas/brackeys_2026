@@ -97,8 +97,8 @@ func on_match():
 	_set_label()
 	var tween: Tween = create_tween()
 	tween.set_parallel(false)
-	tween.tween_property(self, "scale", Vector2(2, 2), 0.2)
-	tween.tween_property(self, "scale", Vector2.ONE, 0.2)
+	tween.tween_property(self, "scale", Vector2(1.15, 1.15), 0.15)
+	tween.tween_property(self, "scale", Vector2.ONE, 0.1)
 	if not is_prefix_part:
 		tween.tween_callback(_reset_match)
 	else:
