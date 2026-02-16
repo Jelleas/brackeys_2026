@@ -16,6 +16,7 @@ func _ready():
 		upgrade_item.instantiate(upgrade)
 		$VBoxContainer.add_child(upgrade_item)
 
+
 class Upgrade:
 	var activation: String
 	var targets: Array[SpellConfigs.Prefix]
