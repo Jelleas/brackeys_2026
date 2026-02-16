@@ -1,11 +1,5 @@
 extends Node
 
-func _init() -> void:
-	pass
-	
-func _process(delta: float) -> void:
-	pass
-	
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventKey:
 		return
