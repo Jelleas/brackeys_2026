@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var health_bar: TextureProgressBar = $TextureProgressBar
+@onready var voice_player = $WizardVoice
 
 @export var health: int = 100
 @export var max_health: int = 100
@@ -40,8 +41,15 @@ func cast(spell: SpellConfigs.Spell):
 func _on_spell_matched(spell: SpellConfigs.Spell):
 	cast(spell)
 
+func _play_hit_sound():
+	voice_player.play()
+
 func _on_monster_attacked(dmg: int) -> void:
 	health -= dmg
+	health_bar.value = health
 	if health <= 0:
 		health = 0
 		Bus.wizard_killed.emit()
+	else:
+		_play_hit_sound()
+	

@@ -6,4 +6,4 @@ class_name MonsterConfig
 @export var damage: int
 @export var resistances: Array[String]
 @export var experience: int
-@export var attack_interval: float
+@export var attack_interval: float = 2.0

@@ -19,6 +19,7 @@ func _ready():
 	
 func init(spell: SpellConfigs.Spell) -> void:
 	damage = spell.get_damage()
+	setup_shape(35)
 	set_colors(spell.prefix.color1, spell.prefix.color2, spell.prefix.color3)
 
 func _physics_process(delta):
