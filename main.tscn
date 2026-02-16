@@ -3,6 +3,16 @@
 [ext_resource type="Script" uid="uid://ce6ewewdgiggs" path="res://input_manager.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cntit6eogsbl" path="res://spell_ui.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://7ungke45eqmy" path="res://wizard/wizard.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://6qo4v8482eba" path="res://monster/monster_spawner.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://3cbu3tsq6sew" path="res://monster/monster.tscn" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://clf2430d4p1ds" path="res://monster/monster_config.gd" id="6_272bh"]
+
+[sub_resource type="Resource" id="Resource_5vw27"]
+script = ExtResource("6_272bh")
+name = "test"
+health = 100
+damage = 200
+metadata/_custom_type_script = "uid://clf2430d4p1ds"
 
 [node name="Node2D" type="Node2D" unique_id=2083027082]
 
@@ -23,4 +33,9 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Wizard" parent="." unique_id=916335594 instance=ExtResource("3_h2yge")]
-position = Vector2(117, 290)
+position = Vector2(163, 338)
+
+[node name="MonsterSpawner" parent="." unique_id=663206382 instance=ExtResource("4_1bvp3")]
+position = Vector2(1117, 332)
+monster_scene = ExtResource("5_7mycd")
+monster_configs = Array[ExtResource("6_272bh")]([SubResource("Resource_5vw27")])

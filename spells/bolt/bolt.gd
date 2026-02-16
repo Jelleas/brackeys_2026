@@ -15,6 +15,7 @@ var _flicker_timer := 0.0
 
 func _ready():
 	$GPUParticles2D.emitting = false
+	$EndPoint.area_entered.connect(_on_area_entered)
 
 func _process(delta: float):
 	if not _fully_extended:
@@ -67,6 +68,13 @@ func set_colors(core_color: Color, glow_color: Color):
 	var grad_tex = GradientTexture1D.new()
 	grad_tex.gradient = gradient
 	$GPUParticles2D.process_material.color_ramp = grad_tex
+
+func _on_area_entered(area: Area2D):
+	if area.is_in_group("monster"):
+		var monster = area.get_parent() as Monster
+		if monster:
+			monster.get_hit(damage)
+		destroy()
 
 func destroy():
 	queue_free()

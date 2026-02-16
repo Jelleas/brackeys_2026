@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bj2hrcxhvhrf3"]
 
-[ext_resource type="Script" uid="uid://b0cxrx5htv7th" path="res://spells/ball.gd" id="1_hj3xb"]
-[ext_resource type="Texture2D" uid="uid://b67nbfdecpy6f" path="res://spells/glow.png" id="2_ffg60"]
+[ext_resource type="Script" uid="uid://b0cxrx5htv7th" path="res://spells/ball/ball.gd" id="1_hj3xb"]
+[ext_resource type="Texture2D" uid="uid://b67nbfdecpy6f" path="res://spells/ball/glow.png" id="2_ffg60"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vywb2"]
 

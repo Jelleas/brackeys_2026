@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://3cbu3tsq6sew"]
+
+[ext_resource type="Script" uid="uid://cxuvew8nke43x" path="res://monster/monster.gd" id="1_okp8s"]
+[ext_resource type="Texture2D" uid="uid://bq7ru5xxubpud" path="res://icon.svg" id="2_gsx7y"]
+[ext_resource type="AudioStream" uid="uid://cra6wj3tb65rn" path="res://monster/mixkit-creature-cry-of-hurt-2208.wav" id="3_2k2s0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2k2s0"]
+
+[node name="Monster" type="Node2D" unique_id=50394001]
+script = ExtResource("1_okp8s")
+
+[node name="MonsterBody" type="Area2D" parent="." unique_id=2015240781]
+
+[node name="Sprite2D" type="Sprite2D" parent="MonsterBody" unique_id=1145050254]
+texture = ExtResource("2_gsx7y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MonsterBody" unique_id=1959757466]
+shape = SubResource("CapsuleShape2D_2k2s0")
+
+[node name="MonsterVoice" type="AudioStreamPlayer2D" parent="." unique_id=203686466]
+stream = ExtResource("3_2k2s0")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=498079575]
+offset_right = 40.0
+offset_bottom = 40.0
