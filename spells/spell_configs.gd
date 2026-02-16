@@ -56,7 +56,7 @@ class Fluctus extends Spell:
 	func _init(_prefix: Prefix):
 		prefix = _prefix
 		_base_damage = 30
-		scene = preload("res://spells/ball/ball.tscn")
+		scene = preload("res://spells/wave/wave.tscn")
 		name = prefix.name + " " + postfix.name
 		
 class Bombamagnamala extends Spell:
