@@ -12,7 +12,7 @@ func _ready():
 	initialize_spells()
 
 func initialize_spells() -> void:
-	for prefix in SpellConfigs.prefixes:
+	for prefix in SpellConfigs.get_prefixes():
 		var spell_part: SpellPart = spell_part_scene.instantiate()
 		
 		spell_part.instantiate(prefix.name, [])
@@ -21,10 +21,10 @@ func initialize_spells() -> void:
 
 		prefix_parts.append(spell_part)
 
-	for postfix in SpellConfigs.postfixes:
+	for postfix in SpellConfigs.get_postfixes():
 		var spell_part: SpellPart = spell_part_scene.instantiate()
 		
-		spell_part.instantiate(postfix.name, SpellConfigs.prefixes)
+		spell_part.instantiate(postfix.name, SpellConfigs.get_prefixes())
 		
 		$MarginContainer/HBoxContainer/PostfixVBoxContainer.add_child(spell_part)
 

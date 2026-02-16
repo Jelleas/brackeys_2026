@@ -1,24 +1,72 @@
 class_name SpellConfigs
 
 static func get_spell(prefix_name: String, postfix_name: String) -> Spell:
-	return Spell.new(
-		prefixes_by_name[prefix_name],
-		postfixes_by_name[postfix_name]
-	)
-
+	var spell_class = [Pila, Fulminis, Imbris, Fluctus, Bombamagnamala].filter(
+		func (c): return c.postfix.name == postfix_name
+	)[0]
+	
+	var prefix = _prefixes.filter(
+		func (p): return p.name == prefix_name
+	)[0]
+	
+	return spell_class.new(prefix)
+	
 class Spell:
 	var prefix: Prefix
-	var postfix: Postfix
+	var name: String
+	var _base_damage: int
+	var scene: PackedScene
 	
-	func _init(_prefix: Prefix, _postfix: Postfix):
-		prefix = _prefix
-		postfix = _postfix
-		
-	func get_scene() -> PackedScene:
-		return postfix.scene
-		
+	func _init(_prefix: Prefix):
+		assert(false)
+
 	func get_damage() -> int:
-		return int(postfix.base_damage * prefix.damage_multiplier)
+		return int(_base_damage * prefix.damage_multiplier)
+
+class Pila extends Spell:
+	static var postfix: Postfix = Postfix.new("pila")
+	
+	func _init(_prefix: Prefix):
+		prefix = _prefix
+		_base_damage = 20
+		scene = preload("res://spells/ball/ball.tscn")
+		name = prefix.name + " " + postfix.name
+		
+class Fulminis extends Spell:
+	static var postfix: Postfix = Postfix.new("fulminis")
+	
+	func _init(_prefix: Prefix):
+		prefix = _prefix
+		_base_damage = 40
+		scene = preload("res://spells/bolt/bolt.tscn")
+		name = prefix.name + " " + postfix.name
+
+class Imbris extends Spell:
+	static var postfix: Postfix = Postfix.new("imbris")
+
+	func _init(_prefix: Prefix):
+		prefix = _prefix
+		_base_damage = 30
+		scene = preload("res://spells/ball/ball.tscn")
+		name = prefix.name + " " + postfix.name
+
+class Fluctus extends Spell:
+	static var postfix: Postfix = Postfix.new("fluctus")
+
+	func _init(_prefix: Prefix):
+		prefix = _prefix
+		_base_damage = 30
+		scene = preload("res://spells/ball/ball.tscn")
+		name = prefix.name + " " + postfix.name
+		
+class Bombamagnamala extends Spell:
+	static var postfix: Postfix = Postfix.new("bombamagnamala")
+
+	func _init(_prefix: Prefix):
+		prefix = _prefix
+		_base_damage = 75
+		scene = preload("res://spells/ball/ball.tscn")
+		name = prefix.name + " " + postfix.name
 
 class Prefix:
 	var name: String
@@ -33,18 +81,25 @@ class Prefix:
 		color2 = _color2
 		color3 = _color3
 		damage_multiplier = _damage_multiplier
-		
+
 class Postfix:
 	var name: String
-	var scene: PackedScene
-	var base_damage: int
 	
-	func _init(_name: String, _scene, _base_damage: int = 10) -> void:
+	func _init(_name):
 		name = _name
-		scene = _scene
-		base_damage = _base_damage
+
+static func get_postfixes() -> Array[Postfix]:
+	var postfixes: Array[Postfix] = []
 	
-static var prefixes: Array[Prefix] = [
+	for c in [Pila, Fulminis, Imbris, Fluctus, Bombamagnamala]:
+		postfixes.append(c.postfix)
+	
+	return postfixes
+
+static func get_prefixes() -> Array[Prefix]:
+	return _prefixes
+
+static var _prefixes: Array[Prefix] = [
 	Prefix.new("lux", Color("#FFFFAA"), Color("#cc7b1f"), Color("#c2a840")),
 	Prefix.new("nox", Color("#1B3A3B"), Color("#0a3233"), Color("#032829")),
 	Prefix.new("sol", Color("#9e4731"), Color("#FF6600"), Color("#CC2200")),
@@ -52,28 +107,5 @@ static var prefixes: Array[Prefix] = [
 	Prefix.new("nix", Color("#dee8d5"), Color("#9fb5b2"), Color("#5c6967"))
 ]
 
-static var postfixes: Array[Postfix] = [
-	Postfix.new("pila", preload("res://spells/ball/ball.tscn"), 20),
-	Postfix.new("fulminis", preload("res://spells/bolt/bolt.tscn"), 40),
-	Postfix.new("imbris", preload("res://spells/ball/ball.tscn"), 30),
-	Postfix.new("fluctus", preload("res://spells/ball/ball.tscn"), 30),
-	Postfix.new("bombamagnamala", preload("res://spells/ball/ball.tscn"), 75),
-]
 
-static var prefixes_by_name: Dictionary[String, Prefix] = associate_prefixes_by(prefixes, "name")
-static var postfixes_by_name: Dictionary[String, Postfix] = associate_postfixes_by(postfixes, "name")
-
-# Godot doesn't have generics so we need two of these functions or we get stuck with just Dictionary type
-static func associate_prefixes_by(arr: Array, key_prop: String) -> Dictionary[String, Prefix]:
-	var dict: Dictionary[String, Prefix] = {}
-	for obj in arr:
-		var key = obj[key_prop]
-		dict[key] = obj
-	return dict
 	
-static func associate_postfixes_by(arr: Array, key_prop: String) -> Dictionary[String, Postfix]:
-	var dict: Dictionary[String, Postfix] = {}
-	for obj in arr:
-		var key = obj[key_prop]
-		dict[key] = obj
-	return dict
