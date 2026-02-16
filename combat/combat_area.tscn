@@ -32,7 +32,7 @@ offset_bottom = 360.0
 color = Color(1, 1, 1, 0.39607844)
 
 [node name="MonsterSpawner" parent="." unique_id=663206382 instance=ExtResource("3_imaqy")]
-position = Vector2(800, 180)
+position = Vector2(800, 250)
 monster_scene = ExtResource("4_pmhac")
 
 [node name="WaveManager" type="Node2D" parent="." unique_id=662207356 node_paths=PackedStringArray("spawner")]
@@ -41,4 +41,4 @@ monster_configs = Array[ExtResource("5_b8epd")]([SubResource("Resource_5clfo"), 
 spawner = NodePath("../MonsterSpawner")
 
 [node name="Wizard" parent="." unique_id=916335594 instance=ExtResource("2_x7k0x")]
-position = Vector2(93, 180)
+position = Vector2(93, 250)
