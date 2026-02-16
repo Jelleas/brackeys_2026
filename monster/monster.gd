@@ -19,11 +19,13 @@ func _ready() -> void:
 	
 	monster_body.collision_layer = 1
 	monster_body.collision_mask = 2
-	monster_body.monitoring = true
-	monster_body.monitorable = true
+	monster_body.set_deferred("monitoring", true)
+	monster_body.set_deferred("monitorable", true)
 	monster_body.add_to_group("monster")
 	health_bar.max_value = config.health
 	health_bar.value = config.health
+	
+	_create_healthbar()
 	
 	var sprite = $MonsterBody/Sprite2D
 	var collision_shape = $MonsterBody/CollisionShape2D
@@ -31,6 +33,24 @@ func _ready() -> void:
 	var shape = collision_shape.shape as CapsuleShape2D
 	shape.radius = tex_size.x / 2.0
 	shape.height = tex_size.y
+
+func _create_healthbar() -> void:
+	var under_tex = GradientTexture2D.new()
+	under_tex.width = 100
+	under_tex.height = 10
+	under_tex.gradient = Gradient.new()
+	under_tex.gradient.colors = PackedColorArray([Color(0.2, 0.2, 0.2), Color(0.2, 0.2, 0.2)])
+	health_bar.texture_under = under_tex
+
+	var progress_tex = GradientTexture2D.new()
+	progress_tex.width = 100
+	progress_tex.height = 10
+	progress_tex.gradient = Gradient.new()
+	progress_tex.gradient.colors = PackedColorArray([Color(0.8, 0.1, 0.1), Color(0.8, 0.1, 0.1)])
+	health_bar.texture_progress = progress_tex
+
+	health_bar.position = Vector2(-50, 70)
+	health_bar.size = Vector2(100, 10)
 
 func get_hit(incoming_hit: int):
 	if is_dead:

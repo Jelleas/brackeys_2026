@@ -4,7 +4,7 @@ extends Area2D
 @export var ttl := 10.0
 var direction := Vector2.RIGHT
 var target: Area2D
-var damage: int = 200
+var damage: int = 50
 var mat
 
 func _ready():

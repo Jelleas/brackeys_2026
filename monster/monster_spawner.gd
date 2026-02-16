@@ -43,4 +43,4 @@ func _on_monster_killed(monster: Monster) -> void:
 	visible_monsters.remove_at(index)
 	monster.queue_free()
 	_reposition_monsters()
-	_fill_slots()
+	call_deferred("_fill_slots")
