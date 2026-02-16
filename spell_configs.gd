@@ -1,5 +1,22 @@
 class_name SpellConfigs
 
+static func get_spell(prefix_name: String, postfix_name: String) -> Spell:
+	return Spell.new(
+		prefixes_by_name[prefix_name],
+		postfixes_by_name[postfix_name]
+	)
+
+class Spell:
+	var prefix: Prefix
+	var postfix: Postfix
+	
+	func _init(_prefix: Prefix, _postfix: Postfix):
+		prefix = _prefix
+		postfix = _postfix
+		
+	func get_scene() -> PackedScene:
+		return postfix.scene
+
 class Prefix:
 	var name: String
 	var color1: Color
@@ -14,9 +31,11 @@ class Prefix:
 		
 class Postfix:
 	var name: String
+	var scene: PackedScene
 	
-	func _init(_name: String) -> void:
+	func _init(_name: String, _scene) -> void:
 		name = _name
+		scene = _scene
 	
 static var prefixes: Array[Prefix] = [
 	Prefix.new("lux", Color("#FFFFAA"), Color("#FF6600"), Color("#CC2200")),
@@ -27,11 +46,11 @@ static var prefixes: Array[Prefix] = [
 ]
 
 static var postfixes: Array[Postfix] = [
-	Postfix.new("pila"),
-	Postfix.new("fulminis"),
-	Postfix.new("imbris"),
-	Postfix.new("fluctus"),
-	Postfix.new("bombamagnamala"),
+	Postfix.new("pila", preload("res://spells/ball/ball.tscn")),
+	Postfix.new("fulminis", preload("res://spells/bolt/bolt.tscn")),
+	Postfix.new("imbris", preload("res://spells/ball/ball.tscn")),
+	Postfix.new("fluctus", preload("res://spells/ball/ball.tscn")),
+	Postfix.new("bombamagnamala", preload("res://spells/ball/ball.tscn")),
 ]
 
 static var prefixes_by_name: Dictionary[String, Prefix] = associate_prefixes_by(prefixes, "name")
