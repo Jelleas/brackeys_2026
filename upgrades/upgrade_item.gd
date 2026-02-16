@@ -15,7 +15,8 @@ func _on_key_typed(key: String):
 	if key == " ":
 		return
 	
-	if upgrade.activation.substr(len(_match))[0] == " ":
+	# You get spaces for free, no need to type them
+	while upgrade.activation.substr(len(_match))[0] == " ":
 		_match += " "
 	
 	_match += key
