@@ -12,7 +12,7 @@ script = ExtResource("1_ig7tw")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=206518236]
 
 [node name="SpellUI" parent="CanvasLayer" unique_id=1753910030 instance=ExtResource("2_0xm2m")]
-custom_minimum_size = Vector2(0, 300)
+custom_minimum_size = Vector2(0, 360)
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -23,4 +23,4 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Wizard" parent="." unique_id=916335594 instance=ExtResource("3_h2yge")]
-position = Vector2(160, 533)
+position = Vector2(117, 290)

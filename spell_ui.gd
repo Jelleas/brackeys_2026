@@ -17,7 +17,7 @@ func initialize_spells() -> void:
 		
 		spell_part.instantiate(prefix.name, [])
 		
-		$HBoxContainer/PrefixVBoxContainer.add_child(spell_part)
+		$HBoxContainer2/PanelContainer/MarginContainer/HBoxContainer/PrefixVBoxContainer.add_child(spell_part)
 
 		prefix_parts.append(spell_part)
 
@@ -26,7 +26,7 @@ func initialize_spells() -> void:
 		
 		spell_part.instantiate(postfix.name, SpellConfigs.prefixes)
 		
-		$HBoxContainer/PostfixVBoxContainer.add_child(spell_part)
+		$HBoxContainer2/PanelContainer/MarginContainer/HBoxContainer/PostfixVBoxContainer.add_child(spell_part)
 
 		postfix_parts.append(spell_part)
 

@@ -1,24 +1,58 @@
 [gd_scene format=3 uid="uid://cntit6eogsbl"]
 
+[ext_resource type="Texture2D" uid="uid://dvtqeyi027r2p" path="res://book.png" id="1_48tn3"]
 [ext_resource type="Script" uid="uid://cvy88emn0ill3" path="res://spell_ui.gd" id="1_oiqol"]
 [ext_resource type="PackedScene" uid="uid://d4j7c14k6wl3n" path="res://spell_part.tscn" id="2_48tn3"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lbsfj"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_48tn3"]
+texture = ExtResource("1_48tn3")
 
 [node name="SpellUI" type="PanelContainer" unique_id=1753910030]
 offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_lbsfj")
 script = ExtResource("1_oiqol")
 spell_part_scene = ExtResource("2_48tn3")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2045534002]
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1082318276]
 layout_mode = 2
 
-[node name="PrefixVBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1820482407]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2" unique_id=116390805]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer2" unique_id=2087918738]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_48tn3")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer2/PanelContainer" unique_id=2078578701]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer2/PanelContainer/MarginContainer" unique_id=2045534002]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PostfixVBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1900906695]
+[node name="PrefixVBoxContainer" type="VBoxContainer" parent="HBoxContainer2/PanelContainer/MarginContainer/HBoxContainer" unique_id=1820482407]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="PostfixVBoxContainer" type="VBoxContainer" parent="HBoxContainer2/PanelContainer/MarginContainer/HBoxContainer" unique_id=1900906695]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
+alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer2" unique_id=1395887462]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2

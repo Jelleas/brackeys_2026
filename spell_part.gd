@@ -80,7 +80,7 @@ func _reset_match():
 		
 func _set_label():	
 	var correct_color: Color = Color.GREEN
-	var incorrect_color: Color = Color.GRAY
+	var incorrect_color: Color = Color.BLACK
 
 	var result: String = "[color=%s]%s[/color]" % [correct_color.to_html(), _match]
 
