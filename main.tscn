@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ce6ewewdgiggs" path="res://input_manager.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cntit6eogsbl" path="res://spell_ui.tscn" id="2_0xm2m"]
+[ext_resource type="StyleBox" uid="uid://dpgngm686o4jj" path="res://panel_box.tres" id="2_272bh"]
 [ext_resource type="PackedScene" uid="uid://7ungke45eqmy" path="res://wizard/wizard.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://6qo4v8482eba" path="res://monster/monster_spawner.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://3cbu3tsq6sew" path="res://monster/monster.tscn" id="5_7mycd"]
@@ -21,16 +22,28 @@ script = ExtResource("1_ig7tw")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=206518236]
 
-[node name="SpellUI" parent="CanvasLayer" unique_id=1753910030 instance=ExtResource("2_0xm2m")]
-custom_minimum_size = Vector2(0, 360)
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=31718732]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 0.0
-offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 0
+size_flags_horizontal = 3
+
+[node name="PlayerStats" type="PanelContainer" parent="CanvasLayer/HBoxContainer" unique_id=1996252300]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_272bh")
+
+[node name="SpellUI" parent="CanvasLayer/HBoxContainer" unique_id=1753910030 instance=ExtResource("2_0xm2m")]
+custom_minimum_size = Vector2(0, 360)
+layout_mode = 2
+
+[node name="Spell Log" type="PanelContainer" parent="CanvasLayer/HBoxContainer" unique_id=2081421611]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_272bh")
 
 [node name="Wizard" parent="." unique_id=916335594 instance=ExtResource("3_h2yge")]
 position = Vector2(163, 338)
