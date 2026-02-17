@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bx2xaagl2ck2x" path="res://menu/game_over_screen.tscn" id="6_7mycd"]
 
 [node name="Main" type="Node2D" unique_id=2083027082]
+process_mode = 3
 script = ExtResource("1_1bvp3")
 game_scene = ExtResource("3_lquwl")
 
@@ -15,6 +16,7 @@ process_mode = 3
 script = ExtResource("1_ig7tw")
 
 [node name="GameScreen" parent="." unique_id=1789729863 instance=ExtResource("3_lquwl")]
+process_mode = 1
 
 [node name="GameOverScreen" parent="." unique_id=630262194 instance=ExtResource("6_7mycd")]
 visible = false
