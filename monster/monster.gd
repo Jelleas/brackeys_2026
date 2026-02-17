@@ -87,4 +87,4 @@ func stop_attacking() -> void:
 func _on_attack_timer() -> void:
 	if is_dead:
 		return
-	Bus.monster_attacked.emit(damage)
+	Bus.monster_attacked.emit(self)
