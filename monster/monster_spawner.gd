@@ -24,8 +24,11 @@ func _fill_slots() -> void:
 		var monster = monster_scene.instantiate()
 		monster.init(config)
 		var index = visible_monsters.size()
-		monster.position = slot_start_position + Vector2(index * slot_spacing, 0)
+		var target_pos = slot_start_position + Vector2(index * slot_spacing, 0)
+		monster.position = slot_start_position + Vector2(max_visible * slot_spacing, 0)  # start at slot 4
 		add_child(monster)
+		var tween = monster.create_tween()
+		tween.tween_property(monster, "position", target_pos, 0.6)
 		visible_monsters.append(monster)
 	_update_front_attacker()
 	_disable_monster_hit_box()
