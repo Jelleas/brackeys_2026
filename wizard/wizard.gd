@@ -1,14 +1,20 @@
 extends Node2D
 
 @onready var health_bar: TextureProgressBar = $TextureProgressBar
-@onready var voice_player = $WizardVoice
+@onready var voice_player: AudioStreamPlayer = $WizardVoice
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
 @export var health: int = 100
 @export var max_health: int = 100
 
+var _default_anim: String = "idle"
+var _hit_anim: String = "hit"
+var _spell_anim: String = "spell"
+
 func _ready():
 	Bus.spell_matched.connect(_on_spell_matched)
 	Bus.monster_attacked.connect(_on_monster_attacked)
+	anim.animation_finished.connect(_on_anim_finished)
 	
 	health_bar.max_value = max_health
 	health_bar.value = health
@@ -44,6 +50,7 @@ func cast(spell: SpellConfigs.Spell):
 	var projectile = spell.scene.instantiate()
 	projectile.init(spell, target_pos)
 	add_child(projectile)
+	anim.play(_spell_anim)
 
 func _on_spell_matched(spell: SpellConfigs.Spell):
 	cast(spell)
@@ -59,4 +66,8 @@ func _on_monster_attacked(dmg: int) -> void:
 		Bus.wizard_killed.emit()
 	else:
 		_play_hit_sound()
+		anim.play(_hit_anim)
 	
+func _on_anim_finished() -> void:
+	if anim.animation != _default_anim:
+		anim.play(_default_anim)
