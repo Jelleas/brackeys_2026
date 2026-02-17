@@ -1,53 +1,18 @@
 [gd_scene format=3 uid="uid://cuqw5d7fxf0i3"]
 
+[ext_resource type="Script" uid="uid://dpskn61xqltj7" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="Script" uid="uid://ce6ewewdgiggs" path="res://input_manager.gd" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://cntit6eogsbl" path="res://spells/spell_ui.tscn" id="2_0xm2m"]
-[ext_resource type="StyleBox" uid="uid://dpgngm686o4jj" path="res://assets/panel_box.tres" id="2_272bh"]
-[ext_resource type="PackedScene" uid="uid://bmpoe56yrob1n" path="res://upgrades/upgrader.tscn" id="3_lquwl"]
-[ext_resource type="PackedScene" uid="uid://haef5f5px368" path="res://combat/combat_area.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cyylkmgqwh7ko" path="res://game_screen.tscn" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bx2xaagl2ck2x" path="res://menu/game_over_screen.tscn" id="6_7mycd"]
 
-[node name="Node2D" type="Node2D" unique_id=2083027082]
+[node name="Main" type="Node2D" unique_id=2083027082]
+script = ExtResource("1_1bvp3")
+game_scene = ExtResource("3_lquwl")
 
 [node name="InputManager" type="Node" parent="." unique_id=889241047]
 script = ExtResource("1_ig7tw")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=206518236]
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=493521187]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/VBoxContainer" unique_id=316367444]
-layout_mode = 2
-size_flags_vertical = 3
-stretch = true
-
-[node name="SubViewport" type="SubViewport" parent="CanvasLayer/VBoxContainer/SubViewportContainer" unique_id=340599510]
-handle_input_locally = false
-size = Vector2i(1280, 356)
-render_target_update_mode = 4
-
-[node name="CombatArea" parent="CanvasLayer/VBoxContainer/SubViewportContainer/SubViewport" unique_id=798258911 instance=ExtResource("4_1bvp3")]
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=31718732]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Upgrader" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=515707499 instance=ExtResource("3_lquwl")]
-layout_mode = 2
-
-[node name="SpellUI" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1753910030 instance=ExtResource("2_0xm2m")]
-custom_minimum_size = Vector2(0, 360)
-layout_mode = 2
-
-[node name="Spell Log" type="PanelContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=2081421611]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-theme_override_styles/panel = ExtResource("2_272bh")
+[node name="GameScreen" parent="." unique_id=1789729863 instance=ExtResource("3_lquwl")]
 
 [node name="GameOverScreen" parent="." unique_id=630262194 instance=ExtResource("6_7mycd")]
 visible = false

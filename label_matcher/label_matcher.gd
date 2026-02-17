@@ -4,16 +4,25 @@ var _string_to_match: String
 
 var _match: String = ""
 var _on_match_callback: Callable
+var _is_listening: bool = true
 
 func instantiate(string_to_match: String, on_match_callback: Callable):
 	_string_to_match = string_to_match
 	$LabelMatcherLabel.text = string_to_match
 	_on_match_callback = on_match_callback
+	
+func start_listening(): 
+	_is_listening = true
+	
+func stop_listening(): 
+	_is_listening = false
 
 func _ready():
 	Bus.key_typed.connect(_on_key_typed)
 
 func _on_key_typed(key: String) -> void:
+	if not _is_listening: return
+	
 	if key == " ":
 		return
 	
