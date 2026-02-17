@@ -6,6 +6,7 @@ var direction := Vector2.RIGHT
 var target: Area2D
 var damage: int = 50
 var mat
+var spell: SpellConfigs.Spell
 
 func _ready():
 	monitoring = true
@@ -17,8 +18,8 @@ func _ready():
 	await get_tree().create_timer(ttl).timeout
 	destroy()
 	
-func init(spell: SpellConfigs.Spell, _target_pos: Vector2 = Vector2.ZERO) -> void:
-	damage = spell.get_damage()
+func init(_spell: SpellConfigs.Spell, _target_pos: Vector2 = Vector2.ZERO) -> void:
+	spell = _spell
 	setup_shape(35)
 	set_colors(spell.prefix.color1, spell.prefix.color2, spell.prefix.color3)
 
@@ -53,7 +54,7 @@ func _on_area_entered(area: Area2D):
 	if area.is_in_group("monster"):
 		var monster = area.get_parent() as Monster
 		if monster:
-			monster.get_hit(damage)
+			monster.get_hit(spell)
 		destroy()
 
 func destroy():

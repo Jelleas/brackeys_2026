@@ -13,8 +13,6 @@ func _ready():
 	# Wait one frame so the Control knows its final size
 	await get_tree().process_frame
 	pivot_offset = size / 2.0
-	
-	Bus.new_upgrades_active.connect(_on_new_upgrades_active)
 
 func instantiate(word_to_match: String, prefixes_required: Array[SpellConfigs.Prefix]) -> void:
 	original_word = word_to_match
@@ -45,7 +43,7 @@ func unlock():
 		_lock = false
 		_reset_match()
 
-func _on_new_upgrades_active(upgrades: Array[Upgrader.Upgrade]) -> void:
+func on_new_upgrades_active(upgrades: Array[Upgrader.Upgrade]) -> void:
 	if is_prefix_part:
 		return
 	

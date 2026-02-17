@@ -8,7 +8,9 @@ var postfix_parts: Array[SpellPart] = []
 var active_prefix: String = "";
 
 func _ready():
-	Bus.key_typed.connect(_on_key_typed)
+	Bus.key_typed.connect(_on_key_typed)		
+	Bus.new_upgrades_active.connect(_on_new_upgrades_active)
+
 	Bus.register_tutorial.emit("Here you see your spells. Combine a word from the left page with a word from the right page.", self, 3)
 	Bus.register_tutorial.emit("Words on the left of the page affect the type of the spell. Some monsters are resistant to some types", self, 4)
 	initialize_spells()
@@ -31,6 +33,16 @@ func initialize_spells() -> void:
 		$MarginContainer/HBoxContainer/PostfixVBoxContainer.add_child(spell_part)
 
 		postfix_parts.append(spell_part)
+
+func _on_new_upgrades_active(upgrades: Array[Upgrader.Upgrade]):
+	for spell_part in postfix_parts:
+		spell_part.on_new_upgrades_active(upgrades)
+		
+	var spell_names: Array[String]
+	for spell_part in postfix_parts:
+		spell_names.append(spell_part._word_to_match)
+
+	Bus.new_spell_names.emit(spell_names)
 
 func _on_key_typed(character: String):
 	var new_prefix_activated: bool = false

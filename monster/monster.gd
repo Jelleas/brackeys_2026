@@ -8,7 +8,7 @@ class_name Monster
 
 var health: int = 100
 var original_modulate: Color
-var config: MonsterConfig
+var config: MonsterConfigs.MonsterType
 var damage: int = 10
 var is_dead: bool = false
 var attack_timer: Timer
@@ -25,6 +25,7 @@ func _ready() -> void:
 	health_bar.value = config.health
 	
 	_create_healthbar()
+	_create_resistance_bar()
 	
 	var sprite = $MonsterBody/Sprite2D
 	var collision_shape = $MonsterBody/CollisionShape2D
@@ -56,17 +57,37 @@ func _create_healthbar() -> void:
 	health_bar.position = Vector2(-50, 70)
 	health_bar.size = Vector2(100, 10)
 
-func init(_config: MonsterConfig):
+func _create_resistance_bar() -> void:
+	var container = $ResistanceTracker
+	container.size.y = 16
+	container.position = Vector2(-50, -85)
+	
+	for prefix in config.resistances:
+		var tex_rect = TextureRect.new()
+		var tex = GradientTexture2D.new()
+		tex.width = 16
+		tex.height = 16
+		tex.gradient = Gradient.new()
+		tex.gradient.colors = PackedColorArray([prefix.color1, prefix.color1])
+		tex_rect.texture = tex
+		tex_rect.custom_minimum_size = Vector2(16, 16)
+		container.add_child(tex_rect)
+
+func init(_config: MonsterConfigs.MonsterType):
 	config = _config
 	health = config.health
 	damage = config.damage
 
-func get_hit(incoming_hit: int):
+func get_hit(spell: SpellConfigs.Spell):
 	if is_dead:
 		return
-	take_damage(incoming_hit)
+	take_damage(spell)
 
-func take_damage(damage: int):
+func take_damage(spell: SpellConfigs.Spell):
+	var damage = spell.get_damage()
+	if spell.prefix.name in config.resistances:
+		damage = damage / 2
+		
 	health -= damage
 	health_bar.value = health
 	_play_hit_sound()

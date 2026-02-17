@@ -8,13 +8,13 @@ class_name MonsterSpawner
 @export var slot_spacing: float = 200
 @export var queue_size: int = 10
 
-var monster_queue: Array[MonsterConfig] = []
+var monster_queue: Array[MonsterConfigs.MonsterType] = []
 var visible_monsters: Array = []
 
 func _ready() -> void:
 	Bus.monster_killed.connect(_on_monster_killed)
 
-func spawn(configs: Array[MonsterConfig]) -> void:
+func spawn(configs: Array[MonsterConfigs.MonsterType]) -> void:
 	monster_queue = configs
 	_fill_slots()
 
@@ -24,8 +24,11 @@ func _fill_slots() -> void:
 		var monster = monster_scene.instantiate()
 		monster.init(config)
 		var index = visible_monsters.size()
-		monster.position = slot_start_position + Vector2(index * slot_spacing, 0)
+		var target_pos = slot_start_position + Vector2(index * slot_spacing, 0)
+		monster.position = slot_start_position + Vector2(max_visible * slot_spacing, 0)  # start at slot 4
 		add_child(monster)
+		var tween = monster.create_tween()
+		tween.tween_property(monster, "position", target_pos, 0.6)
 		visible_monsters.append(monster)
 	_update_front_attacker()
 	_disable_monster_hit_box()
