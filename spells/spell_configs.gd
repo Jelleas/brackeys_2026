@@ -98,6 +98,11 @@ static func get_postfixes() -> Array[Postfix]:
 
 static func get_prefixes() -> Array[Prefix]:
 	return _prefixes
+	
+static func get_prefix(name: String) -> Prefix:
+	return _prefixes.filter(
+		func(p): return p.name == name
+	)[0]
 
 static var _prefixes: Array[Prefix] = [
 	Prefix.new("lux", Color("#FFFFAA"), Color("#cc7b1f"), Color("#c2a840")),

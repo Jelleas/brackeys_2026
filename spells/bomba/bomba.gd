@@ -8,9 +8,10 @@ var _target_global_pos: Vector2 = Vector2.ZERO
 var _phase: int = 0  # 0=falling, 1=exploding, 2=pool
 var _fall_start_y: float = -200.0
 var damage_timer: Timer
+var spell: SpellConfigs.Spell
 
-func init(spell: SpellConfigs.Spell, target_pos: Vector2 = Vector2.ZERO) -> void:
-	damage = spell.get_damage()
+func init(_spell: SpellConfigs.Spell, target_pos: Vector2 = Vector2.ZERO) -> void:
+	spell = _spell
 	_target_global_pos = target_pos
 	_set_colors(spell.prefix.color1, spell.prefix.color2, spell.prefix.color3)
 
@@ -96,7 +97,7 @@ func _do_explosion_damage():
 		if area.is_in_group("monster"):
 			var monster = area.get_parent() as Monster
 			if monster:
-				monster.get_hit(damage * 2)
+				monster.get_hit(spell)
 
 func _on_damage_tick() -> void:
 	var areas = $DamageArea.get_overlapping_areas()
@@ -104,7 +105,7 @@ func _on_damage_tick() -> void:
 		if area.is_in_group("monster"):
 			var monster = area.get_parent() as Monster
 			if monster:
-				monster.get_hit(damage)
+				monster.get_hit(spell)
 
 func _set_colors(color1: Color, color2: Color, color3: Color) -> void:
 	# --- Orb (spell colors) ---

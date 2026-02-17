@@ -12,14 +12,15 @@ var _end_x := 0.0
 var _fully_extended := false
 var _lifetime_timer := 0.0
 var _flicker_timer := 0.0
+var spell: SpellConfigs.Spell
 
 func _ready():
 	$GPUParticles2D.emitting = false
 	$EndPoint.area_entered.connect(_on_area_entered)
 	max_range = get_viewport_rect().size.x - global_position.x
 
-func init(spell: SpellConfigs.Spell, _target_pos: Vector2 = Vector2.ZERO) -> void:
-	damage = spell.get_damage()
+func init(_spell: SpellConfigs.Spell, _target_pos: Vector2 = Vector2.ZERO) -> void:
+	spell = _spell
 	set_colors(spell.prefix.color1, spell.prefix.color2)
 
 func _process(delta: float):
@@ -78,7 +79,7 @@ func _on_area_entered(area: Area2D):
 	if area.is_in_group("monster"):
 		var monster = area.get_parent() as Monster
 		if monster:
-			monster.get_hit(damage)
+			monster.get_hit(spell)
 		_end_x = $EndPoint.position.x
 		_on_bolt_reached_end()
 

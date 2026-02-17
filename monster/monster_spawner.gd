@@ -8,13 +8,13 @@ class_name MonsterSpawner
 @export var slot_spacing: float = 200
 @export var queue_size: int = 10
 
-var monster_queue: Array[MonsterConfig] = []
+var monster_queue: Array[MonsterConfigs.MonsterType] = []
 var visible_monsters: Array = []
 
 func _ready() -> void:
 	Bus.monster_killed.connect(_on_monster_killed)
 
-func spawn(configs: Array[MonsterConfig]) -> void:
+func spawn(configs: Array[MonsterConfigs.MonsterType]) -> void:
 	monster_queue = configs
 	_fill_slots()
 
