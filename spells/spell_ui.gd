@@ -54,7 +54,7 @@ func _on_key_typed(character: String):
 				any_pending = true
 			elif result_state == SpellPart.MatchState.Succeeded:
 				any_succeeded = true
-				var spell = SpellConfigs.get_spell(active_prefix, postfix_part._word_to_match)
+				var spell = SpellConfigs.get_spell(active_prefix, postfix_part.original_word)
 				Bus.spell_matched.emit(spell)
 				_on_spell_matched()
 
