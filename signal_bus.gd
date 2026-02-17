@@ -9,4 +9,6 @@ signal monster_killed(monster: Monster)
 signal monster_attacked(monster: Monster)
 signal wizard_killed()
 
+signal new_upgrades_active(upgrades: Array[Upgrader.Upgrade])
+
 signal new_game()

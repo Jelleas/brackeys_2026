@@ -8,6 +8,8 @@ var _upgrades: Array[Upgrade] = [
 	Add.new("kip", [SpellConfigs.get_prefixes()[0]])
 ]
 
+var all_active_upgrades: Array[Upgrade] = [];
+
 func _ready():
 	var scene: PackedScene = preload("res://label_matcher/label_matcher.tscn")
 	
@@ -17,7 +19,8 @@ func _ready():
 		$VBoxContainer.add_child(upgrade_item)
 
 func _on_upgrade_matched(upgrade: Upgrade):
-	print("Upgrade '", upgrade.activation, "' matched")
+	all_active_upgrades.append(upgrade)
+	Bus.new_upgrades_active.emit(all_active_upgrades)
 
 class Upgrade:
 	var activation: String
