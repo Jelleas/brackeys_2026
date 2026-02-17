@@ -12,3 +12,5 @@ signal wizard_killed()
 signal new_upgrades_active(upgrades: Array[Upgrader.Upgrade])
 
 signal new_game()
+signal tutorial_over()
+signal register_tutorial(text: String, node: Node, order: int)

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dpskn61xqltj7" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="Script" uid="uid://ce6ewewdgiggs" path="res://input_manager.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cyylkmgqwh7ko" path="res://game_screen.tscn" id="3_lquwl"]
+[ext_resource type="PackedScene" uid="uid://bru1vv17yaxdy" path="res://tutorial/tutorial.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bx2xaagl2ck2x" path="res://menu/game_over_screen.tscn" id="6_7mycd"]
 
 [node name="Main" type="Node2D" unique_id=2083027082]
@@ -10,9 +11,12 @@ script = ExtResource("1_1bvp3")
 game_scene = ExtResource("3_lquwl")
 
 [node name="InputManager" type="Node" parent="." unique_id=889241047]
+process_mode = 3
 script = ExtResource("1_ig7tw")
 
 [node name="GameScreen" parent="." unique_id=1789729863 instance=ExtResource("3_lquwl")]
 
 [node name="GameOverScreen" parent="." unique_id=630262194 instance=ExtResource("6_7mycd")]
 visible = false
+
+[node name="Tutorial" parent="." unique_id=1552985280 instance=ExtResource("5_lquwl")]

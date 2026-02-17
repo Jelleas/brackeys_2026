@@ -7,6 +7,9 @@ class_name Main extends Node2D
 func _ready() -> void:
 	Bus.wizard_killed.connect(_on_wizard_killed)
 	Bus.new_game.connect(_on_new_game)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	get_tree().paused = true
 	
 func _on_wizard_killed():
 	if game_screen:

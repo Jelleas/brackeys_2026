@@ -21,7 +21,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer" unique_id=115352106]
 handle_input_locally = false
-size = Vector2i(2, 2)
+size = Vector2i(1280, 356)
 render_target_update_mode = 4
 
 [node name="CombatArea" parent="VBoxContainer/SubViewportContainer/SubViewport" unique_id=798258911 instance=ExtResource("1_yla3h")]

@@ -13,6 +13,8 @@ var all_active_upgrades: Array[Upgrade] = [];
 func _ready():
 	var scene: PackedScene = preload("res://label_matcher/label_matcher.tscn")
 	
+	Bus.register_tutorial.emit("Upgrades show up here. Do something with them.", self, 8)
+	
 	for upgrade in _upgrades.slice(0, 3):
 		var upgrade_item: LabelMatcher = scene.instantiate()
 		upgrade_item.instantiate(upgrade.activation, _on_upgrade_matched.bind(upgrade))

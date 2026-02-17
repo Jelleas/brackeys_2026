@@ -9,6 +9,8 @@ var active_prefix: String = "";
 
 func _ready():
 	Bus.key_typed.connect(_on_key_typed)
+	Bus.register_tutorial.emit("Here you see your spells. Combine a word from the left page with a word from the right page.", self, 3)
+	Bus.register_tutorial.emit("Words on the left of the page affect the type of the spell. Some monsters are resistant to some types", self, 4)
 	initialize_spells()
 
 func initialize_spells() -> void:
