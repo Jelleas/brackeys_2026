@@ -2,7 +2,6 @@ extends Node
 
 class_name WaveManager
 
-@export var monster_configs: Array[MonsterConfig]
 @export var spawner: MonsterSpawner
 @export var monsters_per_wave: int = 5
 @export var wave_delay: float = 3.0
@@ -16,15 +15,16 @@ func _ready() -> void:
 
 func start_next_wave() -> void:
 	current_wave += 1
-	var configs: Array[MonsterConfig] = _build_wave()
+	var configs: Array[MonsterConfigs.MonsterType] = _build_wave()
 	monsters_remaining = configs.size()
 	spawner.spawn(configs)
 
-func _build_wave() -> Array[MonsterConfig]:
-	var configs: Array[MonsterConfig] = []
+func _build_wave() -> Array[MonsterConfigs.MonsterType]:
+	var all_monsters = MonsterConfigs.get_monsters()
+	var configs: Array[MonsterConfigs.MonsterType] = []
 	for i in range(monsters_per_wave):
-		var random_index = randi_range(0, monster_configs.size() - 1)
-		configs.append(monster_configs[random_index])
+		var random_index = randi_range(0, all_monsters.size() - 1)
+		configs.append(all_monsters[random_index].new())
 	return configs
 
 func _on_monster_killed(_monster: Monster) -> void:

@@ -5,11 +5,12 @@ var max_range: float = 1200.0
 var wave_x: float = 0.0
 var hit_monsters: Array = []
 var _done: bool = false
+var spell: SpellConfigs.Spell
 
 @onready var hit_area: Area2D = $HitArea
 
-func init(spell: SpellConfigs.Spell, _target_pos: Vector2 = Vector2.ZERO) -> void:
-	damage = spell.get_damage()
+func init(_spell: SpellConfigs.Spell, _target_pos: Vector2 = Vector2.ZERO) -> void:
+	spell = _spell
 	_set_colors(spell.prefix.color1, spell.prefix.color2, spell.prefix.color3)
 
 func _ready():
@@ -40,7 +41,7 @@ func _on_area_entered(area: Area2D):
 	if area.is_in_group("monster"):
 		var monster = area.get_parent() as Monster
 		if monster and monster not in hit_monsters:
-			monster.get_hit(damage)
+			monster.get_hit(spell)
 			hit_monsters.append(monster)
 
 func _generate_wave_points():

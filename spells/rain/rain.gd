@@ -6,6 +6,7 @@ var tick_interval: float = 0.5
 var cloud_y_offset: float = -200.0
 var _target_global_pos: Vector2 = Vector2.ZERO
 var damage_timer: Timer
+var spell: SpellConfigs.Spell
 
 @onready var damage_area: Area2D = $DamageArea
 
@@ -30,8 +31,8 @@ func _ready():
 	await get_tree().create_timer(duration).timeout
 	_fade_and_destroy()
 
-func init(spell: SpellConfigs.Spell, target_pos: Vector2) -> void:
-	damage = spell.get_damage()
+func init(_spell: SpellConfigs.Spell, target_pos: Vector2) -> void:
+	spell = _spell
 	_target_global_pos = target_pos
 	_set_colors(spell.prefix.color1, spell.prefix.color2, spell.prefix.color3)
 
@@ -64,7 +65,7 @@ func _on_damage_tick() -> void:
 		if area.is_in_group("monster"):
 			var monster = area.get_parent() as Monster
 			if monster:
-				monster.get_hit(damage)
+				monster.get_hit(spell)
 
 func _fade_and_destroy() -> void:
 	damage_timer.stop()
