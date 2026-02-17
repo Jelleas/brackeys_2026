@@ -9,13 +9,15 @@ var _upgrades: Array[Upgrade] = [
 ]
 
 func _ready():
-	var scene = preload("res://upgrades/upgrade_item.tscn")
+	var scene: PackedScene = preload("res://label_matcher/label_matcher.tscn")
 	
 	for upgrade in _upgrades.slice(0, 3):
-		var upgrade_item = scene.instantiate()
-		upgrade_item.instantiate(upgrade)
+		var upgrade_item: LabelMatcher = scene.instantiate()
+		upgrade_item.instantiate(upgrade.activation, _on_upgrade_matched.bind(upgrade))
 		$VBoxContainer.add_child(upgrade_item)
 
+func _on_upgrade_matched(upgrade: Upgrade):
+	print("Upgrade '", upgrade.activation, "' matched")
 
 class Upgrade:
 	var activation: String

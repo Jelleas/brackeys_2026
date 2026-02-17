@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bx2xaagl2ck2x"]
+
+[ext_resource type="Script" uid="uid://bk5058s672oiu" path="res://menu/game_over_screen.gd" id="1_25w2h"]
+[ext_resource type="PackedScene" uid="uid://bjbpejxvv7kde" path="res://label_matcher/label_matcher.tscn" id="2_25w2h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_272bh"]
+bg_color = Color(0.07551011, 0.07551014, 0.07551006, 1)
+
+[node name="GameOverScreen" type="CanvasLayer" unique_id=630262194]
+layer = 2
+script = ExtResource("1_25w2h")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1504620860]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_272bh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1749843812]
+layout_mode = 2
+
+[node name="GameOver" type="RichTextLabel" parent="PanelContainer/VBoxContainer" unique_id=626251133]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 80
+text = "Game Over"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ShopContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1662783438]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ShopContainer" unique_id=1815086908]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ShopContainer" unique_id=162105065]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Continue" parent="PanelContainer/VBoxContainer" unique_id=1674647632 instance=ExtResource("2_25w2h")]
+layout_mode = 2
