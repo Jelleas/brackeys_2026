@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bjbpejxvv7kde"]
 
 [ext_resource type="Script" uid="uid://bfgmvjhrvxicg" path="res://label_matcher/label_matcher.gd" id="1_e641r"]
+[ext_resource type="Script" uid="uid://dcw8b6vgsk8an" path="res://timer_border.gd" id="2_vqs61"]
 
 [node name="LabelMatcher" type="PanelContainer" unique_id=1674647632]
 offset_right = 247.0
@@ -18,3 +19,13 @@ theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "Lux"
 horizontal_alignment = 1
+
+[node name="TimerBorder" type="Control" parent="LabelMatcherLabel" unique_id=1452589970]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_vqs61")

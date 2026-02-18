@@ -12,7 +12,10 @@ func instantiate(string_to_match: String, on_match_callback: Callable):
 	_string_to_match = _original_string.to_lower()
 	$LabelMatcherLabel.text = string_to_match
 	_on_match_callback = on_match_callback
-	
+
+func start_timer(new_duration: float = -1.0):
+	$LabelMatcherLabel/TimerBorder.start_timer(new_duration)
+
 func start_listening(): 
 	_is_listening = true
 	

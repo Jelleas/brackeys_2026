@@ -43,6 +43,7 @@ func _set_upgrades():
 			var upgrade = _upgrades[i]
 			label_matcher.instantiate(upgrade.activation, _on_upgrade_matched.bind(upgrade))
 			label_matcher.show()
+			label_matcher.start_timer()
 	else:
 		for label_matcher in label_matchers:
 			label_matcher.hide()
