@@ -8,11 +8,9 @@ extends Node2D
 @export var health: int = 100
 @export var max_health: int = 100
 
-var _time_to_block: float = 2.0
 var _block_words: Array[String] = ["shield", "block", "guard", "ward", "parry"]
 var _is_blocking: bool = false
 var _attacking_monster: Monster
-var _block_timer: Timer
 var _current_matcher: LabelMatcher
 
 var _default_anim: String = "idle"
@@ -22,17 +20,13 @@ var _spell_anim: String = "spell"
 func _ready():
 	Bus.spell_matched.connect(_on_spell_matched)
 	Bus.monster_attacked.connect(_on_monster_attacked)
+	Bus.monster_foreshadow_attack.connect(_on_monster_attack_foreshadow)
 	Bus.monster_killed.connect(_on_monster_killed)
 	anim.animation_finished.connect(_on_anim_finished)
 	
 	health_bar.max_value = max_health
 	health_bar.value = health
 	_create_healthbar()
-	
-	_block_timer = Timer.new()
-	_block_timer.one_shot = true
-	_block_timer.timeout.connect(_on_block_timeout)
-	add_child(_block_timer)
 
 func _create_healthbar() -> void:
 	var under_tex = GradientTexture2D.new()
@@ -77,23 +71,14 @@ func _start_block() -> void:
 	add_child(_current_matcher)
 	_current_matcher.position = Vector2(-60, -80)
 
-	_block_timer.wait_time = _time_to_block
-	_block_timer.start()
-
 func _end_block() -> void:
 	_is_blocking = false
-	_block_timer.stop()
 	if _current_matcher:
 		_current_matcher.queue_free()
 		_current_matcher = null
 
 func _on_block_success() -> void:
 	_end_block()
-
-func _on_block_timeout() -> void:
-	_end_block()
-	if is_instance_valid(_attacking_monster):
-		_take_damage(_attacking_monster.damage)
 
 func _take_damage(dmg: int) -> void:
 	health -= dmg
@@ -113,9 +98,13 @@ func _on_monster_killed(monster: Monster) -> void:
 		_end_block()
 
 func _on_monster_attacked(monster: Monster) -> void:
-	if _is_blocking:
-		_take_damage(monster.damage)
-		return
+	if _is_blocking and is_instance_valid(_attacking_monster):
+		_end_block()
+		_take_damage(_attacking_monster.damage)
+	else:
+		anim.play("block")
+	
+func _on_monster_attack_foreshadow(monster: Monster) -> void:
 	_attacking_monster = monster
 	_start_block()
 	
