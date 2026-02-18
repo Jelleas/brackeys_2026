@@ -85,7 +85,7 @@ func get_hit(spell: SpellConfigs.Spell):
 
 func take_damage(spell: SpellConfigs.Spell):
 	var damage = spell.get_damage()
-	if spell.prefix.name in config.resistances:
+	if spell.prefix.name in config.resistances.map(func(res): return res.name):
 		damage = damage / 2
 		
 	health -= damage
