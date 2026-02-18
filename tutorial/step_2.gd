@@ -1,8 +1,5 @@
 extends CanvasLayer
 
-var prefix_target: Rect2 = Rect2(395, 385, 80, 50)
-var postfix_target: Rect2 = Rect2(790, 385, 100, 50)
-
 func start():
 	Bus.prefix_matched.connect(_on_prefix_matched)
 	Bus.postfix_failed.connect(_on_postfix_failed)
@@ -12,11 +9,13 @@ func start():
 	show()
 
 func _highlight_prefix():
-	$Spotlight.instantiate(prefix_target)
+	var prefix: Rect2 = get_parent().get_parent().find_child("PrefixVBoxContainer").get_children()[0].get_global_rect()
+	$Spotlight.instantiate(prefix)
 	$Spotlight.show()
 	
 func _highlight_postfix():
-	$Spotlight.instantiate(postfix_target)
+	var postfix: Rect2 = get_parent().get_parent().find_child("PostfixVBoxContainer").get_children()[0].get_global_rect()
+	$Spotlight.instantiate(postfix)
 	$Spotlight.show()
 
 func stop():
