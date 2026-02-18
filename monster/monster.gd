@@ -60,7 +60,7 @@ func _create_healthbar() -> void:
 func _create_resistance_bar() -> void:
 	var container = $ResistanceTracker
 	container.size.y = 16
-	container.position = Vector2(-50, -85)
+	container.position = Vector2(-50, 85)
 	
 	for prefix in config.resistances:
 		var tex_rect = TextureRect.new()
