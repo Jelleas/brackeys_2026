@@ -4,7 +4,8 @@ class_name Monster
 
 @onready var monster_body: Area2D = $MonsterBody
 @onready var health_bar: TextureProgressBar = $TextureProgressBar
-@onready var voice_player = $MonsterVoice
+@onready var voice_player: AudioStreamPlayer = $MonsterVoice
+@onready var anim: AnimatedSprite2D = $MonsterBody/AnimatedSprite2D
 
 var health: int = 100
 var original_modulate: Color
@@ -12,6 +13,7 @@ var config: MonsterConfigs.MonsterType
 var damage: int = 10
 var is_dead: bool = false
 var attack_timer: Timer
+var foreshadow_timer: Timer
 
 func _ready() -> void:
 	original_modulate = modulate
@@ -27,17 +29,15 @@ func _ready() -> void:
 	_create_healthbar()
 	_create_resistance_bar()
 	
-	var sprite = $MonsterBody/Sprite2D
-	var collision_shape = $MonsterBody/CollisionShape2D
-	var tex_size = sprite.texture.get_size() * sprite.scale
-	var shape = collision_shape.shape as CapsuleShape2D
-	shape.radius = tex_size.x / 2.0
-	shape.height = tex_size.y
-	
 	attack_timer = Timer.new()
-	attack_timer.one_shot = false
+	attack_timer.one_shot = true
 	attack_timer.timeout.connect(_on_attack_timer)
+	foreshadow_timer = Timer.new()
+	foreshadow_timer.one_shot = true
+	foreshadow_timer.timeout.connect(_on_foreshadow_timer)
+	anim.animation_finished.connect(_on_animation_finished)
 	add_child(attack_timer)
+	add_child(foreshadow_timer)
 
 func _create_healthbar() -> void:
 	var under_tex = GradientTexture2D.new()
@@ -60,7 +60,7 @@ func _create_healthbar() -> void:
 func _create_resistance_bar() -> void:
 	var container = $ResistanceTracker
 	container.size.y = 16
-	container.position = Vector2(-50, -85)
+	container.position = Vector2(-50, 85)
 	
 	for prefix in config.resistances:
 		var tex_rect = TextureRect.new()
@@ -92,20 +92,37 @@ func take_damage(spell: SpellConfigs.Spell):
 	health_bar.value = health
 	_play_hit_sound()
 	if(health <= 0):
+		anim.play("death")
 		is_dead = true
 		Bus.monster_killed.emit(self)
+	else:
+		anim.play("hit")
 
 func _play_hit_sound():
 	voice_player.play()
 
 func start_attacking() -> void:
-	attack_timer.wait_time = config.attack_interval
-	attack_timer.start()
+	foreshadow_timer.wait_time = config.attack_interval
+	attack_timer.wait_time = 2.0
+	foreshadow_timer.start()
 
 func stop_attacking() -> void:
 	attack_timer.stop()
+	foreshadow_timer.stop()
 
 func _on_attack_timer() -> void:
 	if is_dead:
 		return
+	anim.play("attack")
 	Bus.monster_attacked.emit(self)
+	foreshadow_timer.start()
+	
+func _on_foreshadow_timer() -> void:
+	if is_dead:
+		return
+	Bus.monster_foreshadow_attack.emit(self)
+	attack_timer.start()
+	
+func _on_animation_finished():
+	if anim.animation != "death":
+		anim.play("idle")

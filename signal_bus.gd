@@ -9,6 +9,7 @@ signal postfix_failed()
 
 signal monster_killed(monster: Monster)
 signal monster_attacked(monster: Monster)
+signal monster_foreshadow_attack(monster: Monster)
 signal wizard_killed()
 
 signal new_upgrades_active(upgrades: Array[Upgrader.Upgrade])
