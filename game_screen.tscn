@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://haef5f5px368" path="res://combat/combat_area.tscn" id="1_yla3h"]
 [ext_resource type="PackedScene" uid="uid://bmpoe56yrob1n" path="res://upgrades/upgrader.tscn" id="2_j7yda"]
 [ext_resource type="PackedScene" uid="uid://cntit6eogsbl" path="res://spells/spell_ui.tscn" id="3_lxtpa"]
-[ext_resource type="StyleBox" uid="uid://dpgngm686o4jj" path="res://assets/panel_box.tres" id="4_3vj30"]
+[ext_resource type="StyleBox" uid="uid://bfbamwjxcr2wx" path="res://assets/simple_panel_box.tres" id="3_yla3h"]
 
 [node name="GameScreen" type="CanvasLayer" unique_id=1789729863]
 
@@ -32,6 +32,7 @@ size_flags_horizontal = 3
 
 [node name="Upgrader" parent="VBoxContainer/HBoxContainer" unique_id=515707499 instance=ExtResource("2_j7yda")]
 layout_mode = 2
+theme_override_styles/panel = ExtResource("3_yla3h")
 
 [node name="SpellUI" parent="VBoxContainer/HBoxContainer" unique_id=1753910030 instance=ExtResource("3_lxtpa")]
 custom_minimum_size = Vector2(0, 360)
@@ -40,4 +41,4 @@ layout_mode = 2
 [node name="Spell Log" type="PanelContainer" parent="VBoxContainer/HBoxContainer" unique_id=1998510564]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-theme_override_styles/panel = ExtResource("4_3vj30")
+theme_override_styles/panel = ExtResource("3_yla3h")
