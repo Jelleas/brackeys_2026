@@ -1,13 +1,15 @@
 class_name LabelMatcher extends PanelContainer
 
 var _string_to_match: String
+var _original_string: String
 
 var _match: String = ""
 var _on_match_callback: Callable
 var _is_listening: bool = true
 
 func instantiate(string_to_match: String, on_match_callback: Callable):
-	_string_to_match = string_to_match
+	_original_string = string_to_match
+	_string_to_match = _original_string.to_lower()
 	$LabelMatcherLabel.text = string_to_match
 	_on_match_callback = on_match_callback
 	
@@ -25,6 +27,8 @@ func _on_key_typed(key: String) -> void:
 	
 	if key == " ":
 		return
+	
+	key = key.to_lower()
 	
 	# You get spaces for free, no need to type them
 	while _string_to_match.substr(len(_match))[0] == " ":
@@ -44,7 +48,7 @@ func _set_label():
 	var correct_color: Color = Color.GREEN
 	var incorrect_color: Color = Color.BLACK
 
-	var result: String = "[color=%s]%s[/color]" % [correct_color.to_html(), _match]
+	var result: String = "[color=%s]%s[/color]" % [correct_color.to_html(), _original_string.substr(0, len(_match))]
 
 	var remainder: String = _string_to_match.substr(len(_match))
 	result += "[color=%s]%s[/color]" % [incorrect_color.to_html(), remainder]

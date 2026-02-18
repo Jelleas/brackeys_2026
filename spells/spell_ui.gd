@@ -11,8 +11,6 @@ func _ready():
 	Bus.key_typed.connect(_on_key_typed)		
 	Bus.new_upgrades_active.connect(_on_new_upgrades_active)
 
-	Bus.register_tutorial.emit("Here you see your spells. Combine a word from the left page with a word from the right page.", self, 3)
-	Bus.register_tutorial.emit("Words on the left of the page affect the type of the spell. Some monsters are resistant to some types", self, 4)
 	initialize_spells()
 
 func initialize_spells() -> void:
@@ -53,7 +51,8 @@ func _on_key_typed(character: String):
 		if result_state == SpellPart.MatchState.Succeeded:
 			active_prefix = prefix_part._word_to_match
 			new_prefix_activated = true
-	
+			Bus.prefix_matched.emit(active_prefix)
+
 	if new_prefix_activated:
 		for postfix_part in postfix_parts:
 			postfix_part.on_new_prefix(active_prefix)
@@ -82,6 +81,8 @@ func _on_failed_postfix():
 	
 	for postfix_part in postfix_parts:
 		postfix_part.on_reset_prefix()
+		
+	Bus.postfix_failed.emit()
 
 func _on_spell_matched():
 	active_prefix = ""

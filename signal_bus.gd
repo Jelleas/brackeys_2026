@@ -4,6 +4,8 @@ class_name SignalBus
 
 signal key_typed(typed: String)
 signal spell_matched(spell: SpellConfigs.Spell)
+signal prefix_matched(prefix: String)
+signal postfix_failed()
 
 signal monster_killed(monster: Monster)
 signal monster_attacked(monster: Monster)
@@ -16,4 +18,5 @@ signal spawn_upgrade(n_buffs: int, n_debuffs: int) # n_buffs + n_debuffs == 3
 
 signal new_game()
 signal tutorial_over()
-signal register_tutorial(text: String, node: Node, order: int)
+
+signal next_tutorial_step()

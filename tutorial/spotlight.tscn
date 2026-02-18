@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://wkax3sples3h"]
+
+[ext_resource type="Script" uid="uid://dcewkeevoo1bf" path="res://tutorial/spotlight.gd" id="1_1a605"]
+[ext_resource type="Shader" uid="uid://lbympq8rlwq5" path="res://tutorial/box_cutter.gdshader" id="2_nxhq7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5vw27"]
+shader = ExtResource("2_nxhq7")
+shader_parameter/dim_color = Color(0, 0, 0, 0.75)
+shader_parameter/hole_center = Vector2(200, 200)
+shader_parameter/hole_size = Vector2(300, 120)
+shader_parameter/corner_radius = 18.0
+shader_parameter/softness = 12.0
+shader_parameter/ring_width = 3.0
+shader_parameter/ring_color = Color(1, 1, 1, 0.9)
+
+[node name="Spotlight" type="CanvasLayer" unique_id=507612716]
+layer = 3
+visible = false
+script = ExtResource("1_1a605")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1648487693]
+material = SubResource("ShaderMaterial_5vw27")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.77254903)
