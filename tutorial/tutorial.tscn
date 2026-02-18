@@ -1,18 +1,10 @@
 [gd_scene format=3 uid="uid://bru1vv17yaxdy"]
 
 [ext_resource type="Script" uid="uid://r8jsdh1ifypy" path="res://tutorial/tutorial.gd" id="1_vy6qu"]
-[ext_resource type="Shader" uid="uid://lbympq8rlwq5" path="res://tutorial/box_cutter.gdshader" id="2_qk73h"]
+[ext_resource type="PackedScene" uid="uid://wkax3sples3h" path="res://tutorial/spotlight.tscn" id="2_p47bv"]
+[ext_resource type="Script" uid="uid://bkvkbernapusq" path="res://tutorial/step_2.gd" id="2_ridmi"]
+[ext_resource type="Script" uid="uid://8tvuibccfnks" path="res://tutorial/step_1.gd" id="3_qk73h"]
 [ext_resource type="PackedScene" uid="uid://bjbpejxvv7kde" path="res://label_matcher/label_matcher.tscn" id="3_ridmi"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5vw27"]
-shader = ExtResource("2_qk73h")
-shader_parameter/dim_color = Color(0, 0, 0, 0.75)
-shader_parameter/hole_center = Vector2(200, 200)
-shader_parameter/hole_size = Vector2(300, 120)
-shader_parameter/corner_radius = 18.0
-shader_parameter/softness = 12.0
-shader_parameter/ring_width = 3.0
-shader_parameter/ring_color = Color(1, 1, 1, 0.9)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_272bh"]
 bg_color = Color(0.76380855, 0.76380855, 0.76380837, 1)
@@ -22,22 +14,31 @@ process_mode = 3
 layer = 3
 script = ExtResource("1_vy6qu")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=685417362]
-material = SubResource("ShaderMaterial_5vw27")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.77254903)
-
-[node name="Continue" parent="." unique_id=1674647632 instance=ExtResource("3_ridmi")]
-
 [node name="Label" type="Label" parent="." unique_id=1410274907]
+visible = false
 custom_minimum_size = Vector2(600, 0)
-offset_right = 40.0
-offset_bottom = 21.0
+offset_right = 600.0
+offset_bottom = 41.0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_272bh")
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="Step1" type="Container" parent="." unique_id=266464102]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_qk73h")
+
+[node name="Continue" parent="Step1" unique_id=1674647632 instance=ExtResource("3_ridmi")]
+layout_mode = 2
+
+[node name="Spotlight" parent="Step1" unique_id=507612716 instance=ExtResource("2_p47bv")]
+
+[node name="Step2" type="CanvasLayer" parent="." unique_id=1688500433]
+process_mode = 3
+layer = 4
+visible = false
+script = ExtResource("2_ridmi")
+
+[node name="Spotlight" parent="Step2" unique_id=1166933059 instance=ExtResource("2_p47bv")]
