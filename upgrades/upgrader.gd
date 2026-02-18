@@ -2,11 +2,7 @@ extends PanelContainer
 
 class_name Upgrader
 
-var _upgrades: Array[Upgrade] = [
-	Convert.new("o", "a"),
-	Convert.new("bomba", "b"),
-	Add.new("kip", [SpellConfigs.get_prefixes()[0]])
-]
+var _upgrade_labels: Array[UpgradeLabelPair] = []
 
 var _active_spell_names: Array[String] = [
 	SpellConfigs.Pila.postfix.name,
@@ -16,53 +12,43 @@ var _active_spell_names: Array[String] = [
 	SpellConfigs.Bombamagnamala.postfix.name,
 ]
 
-var is_active: bool = true
-
-var label_matchers: Array[LabelMatcher] = []
+var is_active: bool = false
 
 var all_active_upgrades: Array[Upgrade] = [];
 
 func _ready():
 	var scene: PackedScene = preload("res://label_matcher/label_matcher.tscn")
 	
-	for upgrade in _upgrades.slice(0, 3):
-		var upgrade_item: LabelMatcher = scene.instantiate()
-		upgrade_item.instantiate(upgrade.activation, _on_upgrade_matched.bind(upgrade))
-		$VBoxContainer.add_child(upgrade_item)
-		label_matchers.append(upgrade_item)
+	var dummy_upgrades = [
+		Convert.generate_buff(_active_spell_names),
+		Convert.generate_buff(_active_spell_names),
+		Convert.generate_buff(_active_spell_names)
+	]
+	
+	for upgrade in dummy_upgrades:
+		var label_matcher: LabelMatcher = scene.instantiate()
+		_upgrade_labels.append(UpgradeLabelPair.new(
+			label_matcher,
+			_on_upgrade_matched, 
+			_on_upgrade_timeout
+		))
+		_upgrade_labels[-1].set_upgrade(upgrade)
+		_upgrade_labels[-1].deactivate()
+		$VBoxContainer.add_child(label_matcher)
 
 	Bus.new_spell_names.connect(_on_new_spell_names)
 	Bus.spawn_upgrade.connect(_on_spawn_upgrade)
-	
-	_on_spawn_upgrade(2, 1)
-	
-func _set_upgrades():
-	if is_active:
-		for i in range(3):
-			var label_matcher = label_matchers[i]
-			var upgrade = _upgrades[i]
-			label_matcher.instantiate(upgrade.activation, _on_upgrade_matched.bind(upgrade))
-			label_matcher.show()
-			label_matcher.start_timer()
-	else:
-		for label_matcher in label_matchers:
-			label_matcher.hide()
 
-func _on_spawn_upgrade(n_buffs: int, n_debuffs: int):
-	var buffs: Array[Upgrade] = []
-	for i in range(n_buffs):
-		buffs.append(generate_buff())
-	
-	var debuffs: Array[Upgrade] = []
-	for i in range(n_debuffs):
-		debuffs.append(generate_debuff())
-	
-	_upgrades = buffs + debuffs
-	_upgrades.shuffle()
+func _on_spawn_upgrade(is_buff: bool):
+	var upgrade = generate_buff() if is_buff else generate_debuff()
 	
 	is_active = true
-	
-	_set_upgrades()
+
+	# if there is a spot, spawn an upgrade
+	for pair in _upgrade_labels:
+		if not pair.is_active:
+			pair.set_upgrade(upgrade)
+			break
 
 func _on_new_spell_names(spell_names: Array[String]):
 	_active_spell_names = spell_names
@@ -71,25 +57,78 @@ func _on_upgrade_matched(upgrade: Upgrade):
 	if not is_active:
 		return
 	
-	all_active_upgrades.append(upgrade)
-	is_active = false
-	_set_upgrades()
-	Bus.new_upgrades_active.emit(all_active_upgrades)
+	if upgrade.is_buff:
+		all_active_upgrades.append(upgrade)
+	
+	for pair in _upgrade_labels:
+		if pair.upgrade == upgrade:
+			pair.deactivate()
+	
+	if upgrade.is_buff:
+		Bus.new_upgrades_active.emit(all_active_upgrades)
 
-func generate_buff() -> Upgrade:
+func _on_upgrade_timeout(upgrade: Upgrade):
+	if not upgrade.is_buff:
+		all_active_upgrades.append(upgrade)
+		
+	for pair in _upgrade_labels:
+		if pair.upgrade == upgrade:
+			pair.deactivate()
+	
+	if not upgrade.is_buff:
+		Bus.new_upgrades_active.emit(all_active_upgrades)
+		
+func generate_buff(_targets: Array[SpellConfigs.Prefix] = []) -> Upgrade:
 	return [
-		Convert.generate_buff(_active_spell_names)
-	].pick_random()
+		Convert.generate_buff
+	].pick_random().call(_active_spell_names, _targets)
 
-func generate_debuff() -> Upgrade:
+func generate_debuff(_targets: Array[SpellConfigs.Prefix] = []) -> Upgrade:
 	return [
-		Convert.generate_debuff(_active_spell_names),
-		Add.new("kip", [SpellConfigs.get_prefixes()[0]])
-	].pick_random()
+		Convert.generate_debuff,
+		Add.generate_debuff,
+		Repeat.generate_debuff
+	].pick_random().call(_active_spell_names, _targets)
+
+class UpgradeLabelPair:
+	var upgrade: Upgrade
+	var label_matcher: LabelMatcher
+	var is_active: bool
+	var on_upgrade_matched: Callable
+	var on_upgrade_timeout: Callable
+	
+	func _init(
+		_label_matcher: LabelMatcher,
+		_on_upgrade_matched: Callable,
+		_on_upgrade_timeout: Callable
+	):
+		is_active = true
+		label_matcher = _label_matcher
+		on_upgrade_matched = _on_upgrade_matched
+		on_upgrade_timeout = _on_upgrade_timeout
+		
+	func set_upgrade(_upgrade: Upgrade):
+		is_active = true
+		upgrade = _upgrade
+
+		label_matcher.instantiate(
+			upgrade.activation, 
+			on_upgrade_matched.bind(upgrade),
+			Color(0.3, 1.0, 0.3) if upgrade.is_buff else Color(1.0, 0.2, 0.2)
+		)
+
+		label_matcher.start_timer(25, on_upgrade_timeout.bind(upgrade))
+		label_matcher.show()
+
+	func deactivate():
+		is_active = false
+		label_matcher.hide()
+		label_matcher.stop_timer()
 
 class Upgrade:
 	var activation: String
 	var targets: Array[SpellConfigs.Prefix]
+	var is_buff: bool
 	
 	func apply(text: String) -> String:
 		assert(false)
@@ -99,10 +138,11 @@ class Convert extends Upgrade:
 	var from: String
 	var to: String
 	
-	func _init(_from: String, _to: String, _targets: Array[SpellConfigs.Prefix] = []):
+	func _init(_from: String, _to: String, _is_buff: bool, _targets: Array[SpellConfigs.Prefix] = []):
 		from = _from
 		to = _to
-		activation = "convert " + from + " to " + to
+		is_buff = _is_buff
+		activation = from + " to " + to
 		if targets:
 			for t in targets:
 				activation += " in " + t.name
@@ -110,7 +150,7 @@ class Convert extends Upgrade:
 	func apply(text: String) -> String:
 		return text.replace(from, to)
 		
-	static func generate_buff(spell_names: Array[String]) -> Convert:
+	static func generate_buff(spell_names: Array[String], _targets: Array[SpellConfigs.Prefix] = []) -> Convert:
 		var word: String = spell_names.pick_random()
 
 		# 20% replace a single letter
@@ -120,7 +160,7 @@ class Convert extends Upgrade:
 			while to_char == from_char:
 				var w2: String = spell_names.pick_random()
 				to_char = w2.substr(randi() % w2.length(), 1)
-			return Convert.new(from_char, to_char)
+			return Convert.new(from_char, to_char, true, _targets)
 
 		# 80% replace longer substring with a shorter substring
 		var from_len := 2
@@ -138,10 +178,10 @@ class Convert extends Upgrade:
 		var to_start := randi() % (from_sub.length() - to_len + 1)
 		var to_sub := from_sub.substr(to_start, to_len)
 
-		return Convert.new(from_sub, to_sub)
+		return Convert.new(from_sub, to_sub, true, _targets)
 	
-	static func generate_debuff(spell_names: Array[String]) -> Convert:
-		var word := spell_names[randi() % spell_names.size()]
+	static func generate_debuff(spell_names: Array[String], _targets: Array[SpellConfigs.Prefix] = []) -> Convert:
+		var word: String = spell_names.pick_random()
 
 		var max_from_len: int = max(1, word.length() - 1)
 		var from_len := 1
@@ -156,21 +196,46 @@ class Convert extends Upgrade:
 		var to_len := from_len + extra_len
 		var to_sub: String = Upgrader._random_string(to_len)
 
-		return Convert.new(from_sub, to_sub)
+		return Convert.new(from_sub, to_sub, false, _targets)
 
 class Add extends Upgrade:
 	var addition: String
 	
 	func _init(_addition: String, _targets: Array[SpellConfigs.Prefix] = []):
 		addition = _addition
+		is_buff = false
 		targets = _targets
 		activation = "add " + addition
 		if targets:
 			for t in targets:
 				activation += " in " + t.name
 
+	static func generate_debuff(spell_names: Array[String], _targets: Array[SpellConfigs.Prefix] = []) -> Add:
+		var _addition: String = Upgrader._random_string(randi() % 3 + 1)
+		return Add.new(_addition, _targets)
+
 	func apply(text: String) -> String:
 		return text + addition
+		
+class Repeat extends Upgrade:
+	var repetition: String
+
+	func _init(_repetition: String, _targets: Array[SpellConfigs.Prefix] = []):
+		repetition = _repetition
+		is_buff = false
+		targets = _targets
+		activation = "repeat " + repetition
+		if targets:
+			for t in targets:
+				activation += " in " + t.name
+		
+	static func generate_debuff(spell_names: Array[String], _targets: Array[SpellConfigs.Prefix] = []) -> Repeat:
+		var _word: String = spell_names.pick_random()
+		var _repetition: String = _word[randi() % _word.length()]
+		return Repeat.new(_repetition, _targets)
+		
+	func apply(text: String) -> String:
+		return text.replace(repetition, repetition + repetition)
 		
 static func _random_string(length: int) -> String:
 	var vowels := "aeiou"

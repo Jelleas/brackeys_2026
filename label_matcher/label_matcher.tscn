@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bjbpejxvv7kde"]
 
 [ext_resource type="Script" uid="uid://bfgmvjhrvxicg" path="res://label_matcher/label_matcher.gd" id="1_e641r"]
-[ext_resource type="Script" uid="uid://dcw8b6vgsk8an" path="res://timer_border.gd" id="2_vqs61"]
+[ext_resource type="Script" uid="uid://dcw8b6vgsk8an" path="res://label_matcher/timer_border.gd" id="2_vqs61"]
 
 [node name="LabelMatcher" type="PanelContainer" unique_id=1674647632]
 offset_right = 247.0

@@ -9,6 +9,8 @@ extends Control
 var _time_left: float = 0.0
 var _running: bool = false
 
+var _on_timeout_callback: Callable
+
 
 func _ready() -> void:
 	# Always cover the parent (no need to find Layout → Full Rect)
@@ -26,19 +28,25 @@ func _ready() -> void:
 	hide()
 
 
-func start_timer(new_duration: float = -1.0) -> void:
+func start_timer(new_duration: float = -1.0, _on_timeout: Callable = func (): return) -> void:
 	# Call this from the Label (or elsewhere) to start the border timer
 	if new_duration > 0.0:
 		duration = new_duration
 
 	if duration <= 0.0:
 		return
-
+	
+	_on_timeout_callback = _on_timeout
 	_time_left = duration
 	_running = true
 	show()
 	queue_redraw()
 
+func stop_timer():
+	_running = false
+
+func set_color(color: Color):
+	border_color = color
 
 func _process(delta: float) -> void:
 	if not _running:
@@ -48,6 +56,7 @@ func _process(delta: float) -> void:
 	if _time_left <= 0.0:
 		_time_left = 0.0
 		_running = false
+		_on_timeout_callback.call()
 		hide()  # Border fully gone when finished
 
 	queue_redraw()

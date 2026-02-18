@@ -7,14 +7,36 @@ var _match: String = ""
 var _on_match_callback: Callable
 var _is_listening: bool = true
 
-func instantiate(string_to_match: String, on_match_callback: Callable):
+var _timer_color: Color
+
+func instantiate(
+	string_to_match: String, 
+	on_match_callback: Callable,
+	timer_color: Color = Color(1.0, 1.0, 1.0)
+):
 	_original_string = string_to_match
 	_string_to_match = _original_string.to_lower()
 	$LabelMatcherLabel.text = string_to_match
 	_on_match_callback = on_match_callback
+	
+	_timer_color = timer_color
 
-func start_timer(new_duration: float = -1.0):
-	$LabelMatcherLabel/TimerBorder.start_timer(new_duration)
+func start_timer(
+	new_duration: float = -1.0,
+	on_timeout: Callable = func (): return
+):
+	$LabelMatcherLabel/TimerBorder.set_color(_timer_color)
+	
+	$LabelMatcherLabel/TimerBorder.start_timer(
+		new_duration, 
+		on_timeout
+	)
+	
+	$LabelMatcherLabel/TimerBorder.show()
+
+func stop_timer():
+	$LabelMatcherLabel/TimerBorder.stop_timer()
+	$LabelMatcherLabel/TimerBorder.hide()
 
 func start_listening(): 
 	_is_listening = true

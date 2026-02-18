@@ -14,7 +14,7 @@ signal wizard_killed()
 signal new_upgrades_active(upgrades: Array[Upgrader.Upgrade])
 signal new_spell_names(spell_names: Array[String])
 
-signal spawn_upgrade(n_buffs: int, n_debuffs: int) # n_buffs + n_debuffs == 3
+signal spawn_upgrade(is_buff: bool)
 
 signal new_game()
 signal tutorial_over()
